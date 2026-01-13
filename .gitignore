@@ -75,7 +75,7 @@ buildNumber.properties
 logs/
 
 # Không push file bí mật
-src/main/resources/application-secret.properties
+src/main/resources/application-secret.yaml
 
 # Google Drive Credentials
 google-drive-credentials.json
