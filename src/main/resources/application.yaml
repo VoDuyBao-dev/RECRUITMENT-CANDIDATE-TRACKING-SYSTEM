@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: RecruitmentCandidateTracking
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/Recruitment_Candidate_Tracking
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  jackson:
+    time-zone: Asia/Ho_Chi_Minh
+
+  config:
+    import: application-secret.yaml
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  port: 8080
+  servlet:
+    context-path: /RecruitmentCandidateTracking
