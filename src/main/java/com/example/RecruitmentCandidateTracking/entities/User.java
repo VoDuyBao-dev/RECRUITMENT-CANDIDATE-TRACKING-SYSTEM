@@ -1,6 +1,7 @@
 package com.example.RecruitmentCandidateTracking.entities;
 
 
+import com.example.RecruitmentCandidateTracking.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -43,10 +44,10 @@ public class User {
     @Column(name = "avatar_image", length = 255)
     private String avatarImage;
 
-//    @Builder.Default
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "status", length = 20)
-//    private UserStatus status = UserStatus.ACTIVE; // ACTIVE, INACTIVE, LOCKED, PENDING_ACTIVATION
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20)
+    private UserStatus status = UserStatus.ACTIVE; // ACTIVE, INACTIVE, LOCKED, PENDING_ACTIVATION
 
     @Builder.Default
     @Column(name = "created_at", updatable = false)
