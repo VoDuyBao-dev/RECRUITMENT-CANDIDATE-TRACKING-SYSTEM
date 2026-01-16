@@ -1,6 +1,9 @@
 package com.example.RecruitmentCandidateTracking.entities;
 
 import lombok.*;
+
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -31,4 +34,7 @@ public class Evaluation extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String comment; // Nhận xét chi tiết
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDate updatedAt;    // Ngày cập nhật đánh giá gần nhất
 }

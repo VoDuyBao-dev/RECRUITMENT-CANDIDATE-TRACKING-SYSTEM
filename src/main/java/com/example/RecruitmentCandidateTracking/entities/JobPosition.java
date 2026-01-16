@@ -49,6 +49,9 @@ public class JobPosition extends BaseEntity {
 
     @Column(name = "deadline", nullable = false)
     private LocalDate deadline;   // Hạn chót nộp hồ sơ
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDate updatedAt;    // Ngày cập nhật thông tin tuyển dụng gần nhất
     
     @Column(name = "quantity", nullable = false)
     @Builder.Default
