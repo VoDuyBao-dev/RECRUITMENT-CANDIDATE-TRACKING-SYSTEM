@@ -1,13 +1,12 @@
 package com.example.RecruitmentCandidateTracking.entities;
 
-
-import com.example.RecruitmentCandidateTracking.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
+
+import com.example.RecruitmentCandidateTracking.enums.UserStatus;
 
 @Entity
 @Table(name = "users")
@@ -16,54 +15,32 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private Long id;
 
-    @Column(name = "full_name", nullable = false, length = 100)
-    private String fullName;
-
-    @Column(name = "email", nullable = false, unique = true, length = 100)
-    private String email;
+    @Column(nullable = false, unique = true, length = 50)
+    private String username;
 
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private Set<String> roles; // ADMIN, TUTOR, PARENT
-
-    @Column(name = "phone_number", length = 20)
-    private String phoneNumber;
-
-    @Column(name = "avatar_image", length = 255)
-    private String avatarImage;
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private UserStatus status = UserStatus.ACTIVE; // ACTIVE, INACTIVE, LOCKED, PENDING_ACTIVATION
-
+    private UserStatus status = UserStatus.ACTIVE;
+    
     @Builder.Default
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime activationExpiryTime;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-    // Dùng để xác định tài khoản có được phép đăng nhập không
-    private Boolean enabled = false;
-
-    @PrePersist
-    public void onCreate() {
-        if (this.activationExpiryTime == null) {
-            this.activationExpiryTime = LocalDateTime.now().plusMinutes(3);
-        }
-    }
-
+    @ManyToMany(fetch = FetchType.EAGER) // EAGER: Tải user thì tải luôn role
+    @JoinTable(name = "user_roles", // Tên của bảng trung gian thứ 3
+            joinColumns = @JoinColumn(name = "user_id"), // Khóa ngoại trỏ về bảng User
+            inverseJoinColumns = @JoinColumn(name = "role_id") // Khóa ngoại trỏ về bảng Role
+    )
+    private Set<Role> roles = new HashSet<>();
+    
 }
