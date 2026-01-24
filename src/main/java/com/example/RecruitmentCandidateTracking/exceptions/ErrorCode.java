@@ -37,6 +37,11 @@ public enum ErrorCode {
         TOKEN_EXPIRED(2000, "token expired", HttpStatus.BAD_REQUEST),
         TOKEN_ALREADY_USED(2001, "token already used", HttpStatus.BAD_REQUEST),
         TOKEN_NOT_FOUND(2002, "token not found", HttpStatus.BAD_REQUEST),
+        // ACCOUNT
+        ACCOUNT_NOT_ACTIVATED(2003, "account not activated", HttpStatus.BAD_REQUEST),
+        ACCOUNT_DISABLED(2004, "account disabled", HttpStatus.BAD_REQUEST),
+        ACCOUNT_INACTIVE(2005, "account locked", HttpStatus.BAD_REQUEST),
+        UNKNOWN_USER_STATUS(2006, "unknown user status", HttpStatus.INTERNAL_SERVER_ERROR),
 
 
 

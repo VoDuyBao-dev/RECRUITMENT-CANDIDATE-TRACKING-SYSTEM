@@ -3,6 +3,7 @@ package com.example.RecruitmentCandidateTracking.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,10 +39,19 @@ public class User extends BaseEntity {
     // Dùng để xác định tài khoản có được phép đăng nhập không
     private Boolean enabled = false;
 
+    private LocalDateTime activationExpiryTime;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private Set<String> roles;
+
+    @PrePersist
+    public void onCreate() {
+        if (this.activationExpiryTime == null) {
+            this.activationExpiryTime = LocalDateTime.now().plusMinutes(5);
+        }
+    }
     
 }

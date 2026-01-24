@@ -3,6 +3,7 @@ package com.example.RecruitmentCandidateTracking.services;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.entities.VerificationToken;
 import com.example.RecruitmentCandidateTracking.enums.EmailType;
+import com.example.RecruitmentCandidateTracking.enums.UserStatus;
 import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.exceptions.ErrorCode;
 import com.example.RecruitmentCandidateTracking.repositories.UserRepository;
@@ -48,11 +49,14 @@ public class VerificationTokenService {
 
         String verifyLink = "http://localhost:8080/RecruitmentCandidateTracking/auth/verify?token=" + token;
 
+        long a = System.currentTimeMillis();
         emailService.sendEmail(
                 email,
                 EmailType.VERIFY_ACCOUNT,
                 verifyLink
         );
+
+        System.out.println("Time taken to send email: " + (System.currentTimeMillis() - a) + " ms");
 
     }
 
@@ -75,6 +79,7 @@ public class VerificationTokenService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         user.setEnabled(true);
+        user.setStatus(UserStatus.ACTIVE);
         userRepository.save(user);
 
         verificationToken.setUsed(true);

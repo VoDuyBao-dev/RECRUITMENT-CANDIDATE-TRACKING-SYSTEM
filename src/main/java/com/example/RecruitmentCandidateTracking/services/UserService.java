@@ -57,5 +57,24 @@ public class UserService {
         return savedUser;
     }
 
+    //    Check user đã kích hoạt tài khoản chưa và các trạng thái khác...
+    public void validateUserStatus(User user) {
+        switch (user.getStatus()) {
+
+            case PENDING ->
+                    throw new AppException(ErrorCode.ACCOUNT_NOT_ACTIVATED);
+            case INACTIVE ->
+                    throw new AppException(ErrorCode.ACCOUNT_INACTIVE);
+            case ACTIVE -> {}
+            default ->
+                    throw new AppException(ErrorCode.UNKNOWN_USER_STATUS);
+
+        }
+
+        if (Boolean.FALSE.equals(user.getEnabled())) {
+            throw new AppException(ErrorCode.ACCOUNT_DISABLED);
+        }
+    }
+
 
 }
