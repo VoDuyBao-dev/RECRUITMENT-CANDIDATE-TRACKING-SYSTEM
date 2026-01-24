@@ -26,6 +26,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     UserRepository userRepository;
     UserMapper userMapper;
+    VerificationTokenService verificationTokenService;
 
     public User createUserCandidate(CandidateRequest candidateRequest) {
 
@@ -36,6 +37,7 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         User user = userMapper.toUser(candidateRequest);
+        log.info("User created: {}", user);
 
         user.setEmail(candidateRequest.getEmail());
         user.setStatus(UserStatus.PENDING);
@@ -50,18 +52,10 @@ public class UserService {
 
         User savedUser=userRepository.save(user);
 
+        verificationTokenService.generateAndSendVerifyLink(savedUser.getEmail());
+
         return savedUser;
     }
 
-//    public LearnerResponse createLearner(LearnerRequest learnerRequest) {
-//        User user = createUser(learnerRequest);
-//        Learner learner = Learner.builder()
-//                .user(user)
-//                .fullName(user.getFullName())
-//                .build();
-//        log.info("learner in createLearner{}", learner);
-//
-//        return learnerMapper.toResponse(learnerRepository.save(learner));
-//
-//    }
+
 }

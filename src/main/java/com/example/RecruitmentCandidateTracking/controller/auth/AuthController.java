@@ -4,15 +4,13 @@ import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.services.UserService;
+import com.example.RecruitmentCandidateTracking.services.VerificationTokenService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     UserService userService;
+    VerificationTokenService verificationTokenService;
 
     @PostMapping("/register/candidate")
-    public ApiResponse<User> register(CandidateRequest candidateRequest) {
+    public ApiResponse<User> register(@RequestBody CandidateRequest candidateRequest) {
+        log.info("Register candidate request: {}", candidateRequest);
         User user = userService.createUserCandidate(candidateRequest);
        return ApiResponse.<User>builder()
                .code(200)
@@ -32,4 +32,11 @@ public class AuthController {
                .result(user)
                .build();
     }
+
+    @GetMapping("/verify")
+    public String verifyAccount(@RequestParam String token) {
+        verificationTokenService.verifyAccount(token);
+        return "verify_success";
+    }
+
 }
