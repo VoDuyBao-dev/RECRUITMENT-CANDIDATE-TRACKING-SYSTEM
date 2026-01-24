@@ -15,15 +15,15 @@ import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
-
-
-
     // Bean PasswordEncoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-
+    @Autowired
+    private CustomJwtDecoder customJwtDecoder;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 
     private final String[] COMMON_URLS = {
@@ -37,12 +37,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
                 // các API public không cần đăng nhập
                 .requestMatchers(PUBLIC_URLS).permitAll()
 
                     // tất cả request khác phải đăng nhập
                 .anyRequest().authenticated()
+            )
+//        xử lý xác thực jwt
+            .oauth2ResourceServer(oauth2 -> oauth2
+                    .jwt(jwt -> jwt.decoder(customJwtDecoder))
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
             )
 //
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
