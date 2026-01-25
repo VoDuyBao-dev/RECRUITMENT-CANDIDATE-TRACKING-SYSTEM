@@ -1,6 +1,8 @@
 package com.example.RecruitmentCandidateTracking.entities;
 
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import com.example.RecruitmentCandidateTracking.enums.JobStatus;
 import jakarta.persistence.*;
@@ -19,7 +21,7 @@ public class JobPosition extends BaseEntity {
     @Column(name = "job_id")
     private Long id;
 
-    @Column(nullable = false, length = 250) // Title không nên quá dài
+    @Column(nullable = false, length = 250)
     private String title;
 
     @Column(columnDefinition = "TEXT", nullable = false) 
@@ -38,6 +40,9 @@ public class JobPosition extends BaseEntity {
 
     @Column(nullable = false)
     private String address;
+
+    @Column(name = "basic_salary", nullable = false)
+    private BigDecimal basicSalary; // Lương cơ bản
 
     // Dùng LAZY để tối ưu hiệu năng
     @ManyToOne(fetch = FetchType.LAZY) 

@@ -1,8 +1,8 @@
 package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.configuration.TokenValidator;
-import com.example.RecruitmentCandidateTracking.dto.repsonses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.AuthenticationRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.exceptions.ErrorCode;
@@ -17,6 +17,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -110,5 +112,23 @@ public class AuthenticationService {
             user.getRoles().forEach(scopeBuilder::add);
         }
         return scopeBuilder.toString();
+    }
+
+
+        // Lấy thông tin người đăng nhập
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+
+        // getName() trả về email (subject của token)
+        String email = authentication.getName();
+
+        // Phải tìm trong DB theo Email, không phải theo FullName
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 }
