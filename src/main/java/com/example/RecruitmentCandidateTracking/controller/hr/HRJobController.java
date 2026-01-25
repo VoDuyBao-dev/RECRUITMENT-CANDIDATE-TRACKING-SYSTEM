@@ -19,7 +19,7 @@ import java.util.List;
  * Only HR role can access these endpoints
  */
 @RestController
-@RequestMapping("/api/v1/hr/jobs")
+@RequestMapping("/hr/jobs")
 @RequiredArgsConstructor
 @Slf4j
 @PreAuthorize("hasRole('HR')")

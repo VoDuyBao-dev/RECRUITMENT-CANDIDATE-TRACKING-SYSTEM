@@ -28,6 +28,7 @@ public class JobPositionService {
     private final JobPositionRepository jobPositionRepository;
     private final UserRepository userRepository;
     private final JobMapper jobMapper;
+    private final AuthenticationService authenticationService;
 
     @Transactional
     public JobPositionResponse createJob(JobPositionRequest request) {
@@ -37,7 +38,7 @@ public class JobPositionService {
         validateJobDates(request.getStartDate(), request.getDeadline());
 
         // Get current logged-in user (HR)
-        User currentUser = getCurrentUser();
+        User currentUser = authenticationService.getCurrentUser();
 
         // Map request to entity
         JobPosition jobPosition = jobMapper.toEntity(request);
@@ -189,20 +190,5 @@ public class JobPositionService {
         }
     }
 
-    // Lấy thông tin người đăng nhập
-    private User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()
-                || "anonymousUser".equals(authentication.getPrincipal())) {
-            throw new AppException(ErrorCode.UNAUTHORIZED);
-        }
-
-        // getName() trả về email (subject của token)
-        String email = authentication.getName();
-
-        // Phải tìm trong DB theo Email, không phải theo FullName
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-    }
 }

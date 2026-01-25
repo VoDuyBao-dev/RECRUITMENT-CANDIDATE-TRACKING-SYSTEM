@@ -65,7 +65,13 @@ public enum ErrorCode {
 
         // ==================== INTERVIEW ERROR CODES ====================
         INTERVIEW_NOT_FOUND(5001, "Interview schedule not found", HttpStatus.NOT_FOUND),
-        INVALID_INTERVIEW_TIME(5002, "Invalid interview time", HttpStatus.BAD_REQUEST);
+        INVALID_INTERVIEW_TIME(5002, "Invalid interview time", HttpStatus.BAD_REQUEST),
+
+        ALREADY_APPLIED(4002, "You have already applied for this job", HttpStatus.CONFLICT),
+        JOB_NOT_OPEN(4003, "This job position is not open for applications", HttpStatus.BAD_REQUEST),
+        JOB_DEADLINE_PASSED(4004, "The application deadline for this job has passed", HttpStatus.BAD_REQUEST),
+        INVALID_STAGE_TRANSITION(4005, "Invalid pipeline stage transition", HttpStatus.BAD_REQUEST),
+        CANNOT_CHANGE_HIRED_STATUS(4006, "Cannot change status of hired applications", HttpStatus.BAD_REQUEST),
 
         ;
 
