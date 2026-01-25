@@ -66,10 +66,9 @@ public class JobPositionService {
         return jobMapper.toResponse(savedJob);
     }
 
- 
     @Transactional
     public JobPositionResponse updateJob(Long id, JobPositionRequest request) {
-        log.info("Updating job position with ID: {}", id);
+        // log.info("Updating job position with ID: {}", id);
 
         // Find existing job
         JobPosition jobPosition = jobPositionRepository.findById(id)
@@ -94,32 +93,38 @@ public class JobPositionService {
         // Save updated job
         JobPosition updatedJob = jobPositionRepository.save(jobPosition);
 
-        log.info("Job position updated successfully: {}", id);
+        // log.info("Job position updated successfully: {}", id);
         return jobMapper.toResponse(updatedJob);
     }
 
     @Transactional
-    public JobPositionResponse closeJob(Long id) {
-        log.info("Closing job position with ID: {}", id);
+    public JobPositionResponse changeStatusJob(Long id, JobStatus newStatus) {
 
-        // Find existing job
         JobPosition jobPosition = jobPositionRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.JOB_NOT_FOUND));
 
-        // Check if already closed
-        if (jobPosition.getStatus() == JobStatus.CLOSED) {
-            throw new AppException(ErrorCode.JOB_ALREADY_CLOSED);
+        JobStatus currentStatus = jobPosition.getStatus();
+
+        if (currentStatus == null) {
+            throw new AppException(ErrorCode.INVALID_JOB_STATUS);
         }
 
-        // Update status to CLOSED
-        jobPosition.setStatus(JobStatus.CLOSED);
+        // Không cho set lại cùng trạng thái
+        if (currentStatus == newStatus) {
+            throw new AppException(ErrorCode.JOB_STATUS_NOT_CHANGED);
+        }
+
+        // Không cho reopen job đã CLOSED (tuỳ nghiệp vụ)
+        // if (currentStatus == JobStatus.CLOSED && newStatus != JobStatus.CLOSED) {
+        //     throw new AppException(ErrorCode.JOB_STATUS_NOT_ALLOWED);
+        // }
+
+        jobPosition.setStatus(newStatus);
         jobPosition.setUpdatedAt(LocalDate.now());
 
-        // Save updated job
-        JobPosition closedJob = jobPositionRepository.save(jobPosition);
+        JobPosition savedJob = jobPositionRepository.save(jobPosition);
 
-        log.info("Job position closed successfully: {}", id);
-        return jobMapper.toResponse(closedJob);
+        return jobMapper.toResponse(savedJob);
     }
 
     // Lấy tất cả vị trí công việc hiện tại còn đang mở và chưa hết hạn hồ sơ
@@ -133,7 +138,6 @@ public class JobPositionService {
         return jobMapper.toResponseList(jobs);
     }
 
-
     @Transactional(readOnly = true)
     public List<JobPositionResponse> getAllInternalJobs() {
         log.info("Fetching all internal job positions");
@@ -144,7 +148,6 @@ public class JobPositionService {
         return jobMapper.toResponseList(jobs);
     }
 
-
     @Transactional(readOnly = true)
     public JobPositionResponse getJobById(Long id) {
         log.info("Fetching job position with ID: {}", id);
@@ -154,7 +157,6 @@ public class JobPositionService {
 
         return jobMapper.toResponse(jobPosition);
     }
-
 
     @Transactional
     public void deleteJob(Long id) {
@@ -187,8 +189,7 @@ public class JobPositionService {
         }
     }
 
-
-// Lấy thông tin người đăng nhập 
+    // Lấy thông tin người đăng nhập
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

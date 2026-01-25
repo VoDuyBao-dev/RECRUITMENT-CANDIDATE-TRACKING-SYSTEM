@@ -3,6 +3,7 @@ package com.example.RecruitmentCandidateTracking.controller.hr;
 import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.JobPositionRequest;
 import com.example.RecruitmentCandidateTracking.dto.responses.JobPositionResponse;
+import com.example.RecruitmentCandidateTracking.enums.JobStatus;
 import com.example.RecruitmentCandidateTracking.services.JobPositionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,7 @@ public class HRJobController {
     public ApiResponse<JobPositionResponse> updateJob(
             @PathVariable Long id,
             @Valid @RequestBody JobPositionRequest request) {
-        log.info("PUT /api/v1/hr/jobs/{} - Updating job position", id);
+        // log.info("PUT /api/v1/hr/jobs/{} - Updating job position", id);
 
         JobPositionResponse response = jobPositionService.updateJob(id, request);
 
@@ -57,19 +58,21 @@ public class HRJobController {
                 .build();
     }
 
-    // Close a job position
-    @PutMapping("/{id}/close")
-    public ApiResponse<JobPositionResponse> closeJob(@PathVariable Long id) {
-        // log.info("PUT /api/v1/hr/jobs/{}/close - Closing job position", id);
+// Change job status (OPEN / CLOSED / PAUSED)
+@PutMapping("/{id}/status/{status}")
+public ApiResponse<JobPositionResponse> changeJobStatus(
+        @PathVariable Long id,
+        @PathVariable JobStatus status) {
 
-        JobPositionResponse response = jobPositionService.closeJob(id);
+    JobPositionResponse response = jobPositionService.changeStatusJob(id, status);
 
-        return ApiResponse.<JobPositionResponse>builder()
-                .code(HttpStatus.OK.value())
-                .message("Job position closed successfully")
-                .result(response)
-                .build();
-    }
+    return ApiResponse.<JobPositionResponse>builder()
+            .code(HttpStatus.OK.value())
+            .message("Job status updated successfully")
+            .result(response)
+            .build();
+}
+
 
     // Lấy tất cả các vị trí công việc đã tạo được sắp xếp theo ngày tạo mới nhất
     @GetMapping
@@ -111,5 +114,5 @@ public class HRJobController {
     //             .message("Job position deleted successfully")
     //             .build();
     // }
-    
+
 }

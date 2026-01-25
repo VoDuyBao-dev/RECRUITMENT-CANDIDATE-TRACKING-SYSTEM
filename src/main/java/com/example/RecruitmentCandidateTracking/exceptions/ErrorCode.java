@@ -56,6 +56,8 @@ public enum ErrorCode {
         INVALID_START_DATE(3005, "Job start date cannot be in the past", HttpStatus.BAD_REQUEST),
         INVALID_JOB_STATUS(3006, "Invalid job status. Must be OPEN, DRAFT, or CLOSED", HttpStatus.BAD_REQUEST),
         JOB_HAS_APPLICATIONS(3007, "Cannot delete job position with existing applications", HttpStatus.BAD_REQUEST),
+        JOB_STATUS_NOT_ALLOWED(3008, "Job status change not allowed", HttpStatus.BAD_REQUEST),
+        JOB_STATUS_NOT_CHANGED(3009, "Job status is already set to the specified value", HttpStatus.BAD_REQUEST),
 
         // ==================== APPLICATION ERROR CODES ====================
         APPLICATION_NOT_FOUND(4001, "Application not found", HttpStatus.NOT_FOUND),
