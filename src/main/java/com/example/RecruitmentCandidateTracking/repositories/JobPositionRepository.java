@@ -2,6 +2,9 @@ package com.example.RecruitmentCandidateTracking.repositories;
 
 import com.example.RecruitmentCandidateTracking.entities.JobPosition;
 import com.example.RecruitmentCandidateTracking.enums.JobStatus;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +29,7 @@ public interface JobPositionRepository extends JpaRepository<JobPosition, Long> 
 
     // Find all jobs for internal view (HR/Admin) - ordered by latest first
     @Query("SELECT j FROM JobPosition j ORDER BY j.createdAt DESC")
-    List<JobPosition> findAllInternal();
+    Page<JobPosition> findAllInternal(Pageable pageable);
 
     // Find job by ID and status
     Optional<JobPosition> findByIdAndStatus(Long id, JobStatus status);

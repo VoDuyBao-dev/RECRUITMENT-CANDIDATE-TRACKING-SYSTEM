@@ -1,5 +1,6 @@
 package com.example.RecruitmentCandidateTracking.services;
 
+import com.example.RecruitmentCandidateTracking.dto.PageResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.JobPositionRequest;
 import com.example.RecruitmentCandidateTracking.dto.responses.JobPositionResponse;
 import com.example.RecruitmentCandidateTracking.entities.JobPosition;
@@ -9,11 +10,13 @@ import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.exceptions.ErrorCode;
 import com.example.RecruitmentCandidateTracking.mapper.JobMapper;
 import com.example.RecruitmentCandidateTracking.repositories.JobPositionRepository;
-import com.example.RecruitmentCandidateTracking.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +29,6 @@ import java.util.List;
 public class JobPositionService {
 
     private final JobPositionRepository jobPositionRepository;
-    private final UserRepository userRepository;
     private final JobMapper jobMapper;
     private final AuthenticationService authenticationService;
 
@@ -117,7 +119,7 @@ public class JobPositionService {
 
         // Không cho reopen job đã CLOSED (tuỳ nghiệp vụ)
         // if (currentStatus == JobStatus.CLOSED && newStatus != JobStatus.CLOSED) {
-        //     throw new AppException(ErrorCode.JOB_STATUS_NOT_ALLOWED);
+        // throw new AppException(ErrorCode.JOB_STATUS_NOT_ALLOWED);
         // }
 
         jobPosition.setStatus(newStatus);
@@ -140,13 +142,23 @@ public class JobPositionService {
     }
 
     @Transactional(readOnly = true)
-    public List<JobPositionResponse> getAllInternalJobs() {
-        log.info("Fetching all internal job positions");
+    public PageResponse<JobPositionResponse> getAllInternalJobs(int page, int size) {
+        // log.info("Fetching all internal job positions");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<JobPosition> jobs = jobPositionRepository.findAllInternal(pageable);
 
-        List<JobPosition> jobs = jobPositionRepository.findAllInternal();
+        List<JobPositionResponse> responseList = jobs.getContent().stream()
+                .map(jobMapper::toResponse)
+                .toList();
 
-        // log.info("Found {} internal job positions", jobs.size());
-        return jobMapper.toResponseList(jobs);
+        // Trả về PageResponse
+        return PageResponse.of(
+                responseList,
+                jobs.getNumber(),
+                jobs.getSize(),
+                jobs.getTotalElements(),
+                jobs.getTotalPages());
+
     }
 
     @Transactional(readOnly = true)
@@ -159,19 +171,19 @@ public class JobPositionService {
         return jobMapper.toResponse(jobPosition);
     }
 
-    @Transactional
-    public void deleteJob(Long id) {
-        log.info("Deleting job position with ID: {}", id);
+    // @Transactional
+    // public void deleteJob(Long id) {
+    //     log.info("Deleting job position with ID: {}", id);
 
-        // Check if job exists
-        JobPosition jobPosition = jobPositionRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.JOB_NOT_FOUND));
+    //     // Check if job exists
+    //     JobPosition jobPosition = jobPositionRepository.findById(id)
+    //             .orElseThrow(() -> new AppException(ErrorCode.JOB_NOT_FOUND));
 
-        // Delete job
-        jobPositionRepository.deleteById(id);
+    //     // Delete job
+    //     jobPositionRepository.deleteById(id);
 
-        log.info("Job position deleted successfully: {}", id);
-    }
+    //     log.info("Job position deleted successfully: {}", id);
+    // }
 
     /**
      * Validate job dates
@@ -189,6 +201,5 @@ public class JobPositionService {
             throw new AppException(ErrorCode.INVALID_DEADLINE);
         }
     }
-
 
 }

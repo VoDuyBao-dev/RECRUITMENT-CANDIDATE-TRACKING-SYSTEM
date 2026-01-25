@@ -73,6 +73,15 @@ public enum ErrorCode {
         INVALID_STAGE_TRANSITION(4005, "Invalid pipeline stage transition", HttpStatus.BAD_REQUEST),
         CANNOT_CHANGE_HIRED_STATUS(4006, "Cannot change status of hired applications", HttpStatus.BAD_REQUEST),
 
+        INTERVIEWER_TIME_CONFLICT(5003, "Interviewer has a conflicting interview at this time", HttpStatus.CONFLICT),
+        CANNOT_SCHEDULE_INTERVIEW(5004, "Cannot schedule interview for this application status",
+                        HttpStatus.BAD_REQUEST),
+        CANNOT_UPDATE_EVALUATED_INTERVIEW(5005, "Cannot update interview that has been evaluated",
+                        HttpStatus.BAD_REQUEST),
+        NOT_ASSIGNED_INTERVIEWER(5006, "You are not assigned as interviewer for this interview", HttpStatus.FORBIDDEN),
+        EVALUATION_ALREADY_SUBMITTED(5007, "You have already submitted evaluation for this interview",
+                        HttpStatus.CONFLICT);
+
         ;
 
         private int code;

@@ -1,6 +1,7 @@
 package com.example.RecruitmentCandidateTracking.controller.hr;
 
 import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
+import com.example.RecruitmentCandidateTracking.dto.PageResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.JobPositionRequest;
 import com.example.RecruitmentCandidateTracking.dto.responses.JobPositionResponse;
 import com.example.RecruitmentCandidateTracking.enums.JobStatus;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * HR Job Management Controller
@@ -31,7 +31,6 @@ public class HRJobController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<JobPositionResponse> createJob(@Valid @RequestBody JobPositionRequest request) {
-        log.info("POST /api/v1/hr/jobs - Creating job position: {}", request.getTitle());
 
         JobPositionResponse response = jobPositionService.createJob(request);
 
@@ -76,14 +75,15 @@ public ApiResponse<JobPositionResponse> changeJobStatus(
 
     // Lấy tất cả các vị trí công việc đã tạo được sắp xếp theo ngày tạo mới nhất
     @GetMapping
-    public ApiResponse<List<JobPositionResponse>> getAllInternalJobs() {
-        log.info("GET /api/v1/hr/jobs - Fetching all internal job positions");
+    public ApiResponse<PageResponse<JobPositionResponse>> getAllInternalJobs(@RequestParam(defaultValue = "0") int page, 
+            @RequestParam(defaultValue = "10") int size ) {
+        // log.info("GET /api/v1/hr/jobs - Fetching all internal job positions");
 
-        List<JobPositionResponse> jobs = jobPositionService.getAllInternalJobs();
+        PageResponse<JobPositionResponse> jobs = jobPositionService.getAllInternalJobs(page, size);
 
-        return ApiResponse.<List<JobPositionResponse>>builder()
+        return ApiResponse.<PageResponse<JobPositionResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .message(String.format("Retrieved %d job positions successfully", jobs.size()))
+                .message(String.format("Retrieved %d job positions successfully", jobs.getItems().size()))
                 .result(jobs)
                 .build();
     }
@@ -91,7 +91,7 @@ public ApiResponse<JobPositionResponse> changeJobStatus(
 // Lấy chi tiết một công việc
     @GetMapping("/{id}")
     public ApiResponse<JobPositionResponse> getJobById(@PathVariable Long id) {
-        log.info("GET /api/v1/hr/jobs/{} - Fetching job position details", id);
+        // log.info("GET /api/v1/hr/jobs/{} - Fetching job position details", id);
 
         JobPositionResponse response = jobPositionService.getJobById(id);
 
