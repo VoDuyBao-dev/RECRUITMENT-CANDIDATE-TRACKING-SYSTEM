@@ -1,4 +1,4 @@
-package com.example.RecruitmentCandidateTracking.dto.repsonses;
+package com.example.RecruitmentCandidateTracking.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,0 +1,115 @@
+package com.example.RecruitmentCandidateTracking.controller.hr;
+
+import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
+import com.example.RecruitmentCandidateTracking.dto.requests.JobPositionRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.JobPositionResponse;
+import com.example.RecruitmentCandidateTracking.services.JobPositionService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * HR Job Management Controller
+ * Only HR role can access these endpoints
+ */
+@RestController
+@RequestMapping("/api/v1/hr/jobs")
+@RequiredArgsConstructor
+@Slf4j
+@PreAuthorize("hasRole('HR')")
+public class HRJobController {
+
+    private final JobPositionService jobPositionService;
+
+    // Create a new job position
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<JobPositionResponse> createJob(@Valid @RequestBody JobPositionRequest request) {
+        log.info("POST /api/v1/hr/jobs - Creating job position: {}", request.getTitle());
+
+        JobPositionResponse response = jobPositionService.createJob(request);
+
+        return ApiResponse.<JobPositionResponse>builder()
+                .code(HttpStatus.CREATED.value())
+                .message("Job position created successfully")
+                .result(response)
+                .build();
+    }
+
+    // Update an existing job position
+    @PutMapping("/{id}")
+    public ApiResponse<JobPositionResponse> updateJob(
+            @PathVariable Long id,
+            @Valid @RequestBody JobPositionRequest request) {
+        log.info("PUT /api/v1/hr/jobs/{} - Updating job position", id);
+
+        JobPositionResponse response = jobPositionService.updateJob(id, request);
+
+        return ApiResponse.<JobPositionResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message("Job position updated successfully")
+                .result(response)
+                .build();
+    }
+
+    // Close a job position
+    @PutMapping("/{id}/close")
+    public ApiResponse<JobPositionResponse> closeJob(@PathVariable Long id) {
+        // log.info("PUT /api/v1/hr/jobs/{}/close - Closing job position", id);
+
+        JobPositionResponse response = jobPositionService.closeJob(id);
+
+        return ApiResponse.<JobPositionResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message("Job position closed successfully")
+                .result(response)
+                .build();
+    }
+
+    // Lấy tất cả các vị trí công việc đã tạo được sắp xếp theo ngày tạo mới nhất
+    @GetMapping
+    public ApiResponse<List<JobPositionResponse>> getAllInternalJobs() {
+        log.info("GET /api/v1/hr/jobs - Fetching all internal job positions");
+
+        List<JobPositionResponse> jobs = jobPositionService.getAllInternalJobs();
+
+        return ApiResponse.<List<JobPositionResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(String.format("Retrieved %d job positions successfully", jobs.size()))
+                .result(jobs)
+                .build();
+    }
+
+// Lấy chi tiết một công việc
+    @GetMapping("/{id}")
+    public ApiResponse<JobPositionResponse> getJobById(@PathVariable Long id) {
+        log.info("GET /api/v1/hr/jobs/{} - Fetching job position details", id);
+
+        JobPositionResponse response = jobPositionService.getJobById(id);
+
+        return ApiResponse.<JobPositionResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message("Job position retrieved successfully")
+                .result(response)
+                .build();
+    }
+
+    // Xóa một công việc
+    // @DeleteMapping("/{id}")
+    // public ApiResponse<Void> deleteJob(@PathVariable Long id) {
+    //     log.info("DELETE /api/v1/hr/jobs/{} - Deleting job position", id);
+
+    //     jobPositionService.deleteJob(id);
+
+    //     return ApiResponse.<Void>builder()
+    //             .code(HttpStatus.OK.value())
+    //             .message("Job position deleted successfully")
+    //             .build();
+    // }
+    
+}

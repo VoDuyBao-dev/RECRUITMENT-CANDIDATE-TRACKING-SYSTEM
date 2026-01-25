@@ -1,8 +1,8 @@
 package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.configuration.TokenValidator;
-import com.example.RecruitmentCandidateTracking.dto.repsonses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.AuthenticationRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.exceptions.ErrorCode;

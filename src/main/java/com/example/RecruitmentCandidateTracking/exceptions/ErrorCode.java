@@ -28,12 +28,11 @@ public enum ErrorCode {
         UNAUTHENTICATED(1007, "Unauthenticated", HttpStatus.UNAUTHORIZED),
         UNAUTHORIZED(1017, "you do not have permission", HttpStatus.FORBIDDEN),
 
-
         // loi login
         INVALID_CREDENTIALS(1012, "invalid credentials", HttpStatus.UNAUTHORIZED),
         PASSWORDS_DO_NOT_MATCH(1013, "Password and confirm password do not match", HttpStatus.BAD_REQUEST),
 
-//       xác thực tài khoản
+        // xác thực tài khoản
         TOKEN_EXPIRED(2000, "token expired", HttpStatus.BAD_REQUEST),
         TOKEN_ALREADY_USED(2001, "token already used", HttpStatus.BAD_REQUEST),
         TOKEN_NOT_FOUND(2002, "token not found", HttpStatus.BAD_REQUEST),
@@ -43,9 +42,29 @@ public enum ErrorCode {
         ACCOUNT_INACTIVE(2005, "account locked", HttpStatus.BAD_REQUEST),
         UNKNOWN_USER_STATUS(2006, "unknown user status", HttpStatus.INTERNAL_SERVER_ERROR),
 
+        // ==================== USER ERROR CODES ====================
+        USER_NOT_FOUND(2001, "User not found", HttpStatus.NOT_FOUND),
+        USER_ALREADY_EXISTS(2002, "User already exists", HttpStatus.CONFLICT),
+        INVALID_USERNAME(2003, "Username must be at least 3 characters", HttpStatus.BAD_REQUEST),
+        INVALID_PASSWORD(2004, "Password must be at least 8 characters", HttpStatus.BAD_REQUEST),
 
+        // ==================== JOB POSITION ERROR CODES ====================
+        JOB_NOT_FOUND(3001, "Job position not found", HttpStatus.NOT_FOUND),
+        JOB_ALREADY_CLOSED(3002, "Job position is already closed and cannot be updated", HttpStatus.BAD_REQUEST),
+        JOB_TITLE_ALREADY_EXISTS(3003, "Job position with this title already exists", HttpStatus.CONFLICT),
+        INVALID_DEADLINE(3004, "Job deadline must be after start date", HttpStatus.BAD_REQUEST),
+        INVALID_START_DATE(3005, "Job start date cannot be in the past", HttpStatus.BAD_REQUEST),
+        INVALID_JOB_STATUS(3006, "Invalid job status. Must be OPEN, DRAFT, or CLOSED", HttpStatus.BAD_REQUEST),
+        JOB_HAS_APPLICATIONS(3007, "Cannot delete job position with existing applications", HttpStatus.BAD_REQUEST),
 
-        
+        // ==================== APPLICATION ERROR CODES ====================
+        APPLICATION_NOT_FOUND(4001, "Application not found", HttpStatus.NOT_FOUND),
+        APPLICATION_ALREADY_EXISTS(4002, "You have already applied for this job", HttpStatus.CONFLICT),
+
+        // ==================== INTERVIEW ERROR CODES ====================
+        INTERVIEW_NOT_FOUND(5001, "Interview schedule not found", HttpStatus.NOT_FOUND),
+        INVALID_INTERVIEW_TIME(5002, "Invalid interview time", HttpStatus.BAD_REQUEST);
+
         ;
 
         private int code;
