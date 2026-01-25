@@ -14,10 +14,10 @@ public class EvaluationRequest {
     
     @NotNull(message = "Score is required")
     @Min(value = 0, message = "Score must be at least 0")
-    @Max(value = 10, message = "Score cannot exceed 10")
-    private Integer score;
+    @Max(value = 100, message = "Score cannot exceed 100")
+    private int score;
     
     @NotBlank(message = "Comment is required")
-    @Size(min = 10, max = 2000, message = "Comment must be between 10 and 2000 characters")
+    @Size(min = 10,message = "Comment must be more than 10 characters")
     private String comment;
 }

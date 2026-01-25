@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.example.RecruitmentCandidateTracking.enums.ERole;
 import com.example.RecruitmentCandidateTracking.enums.UserStatus;
 
 @Entity
@@ -23,7 +24,6 @@ public class User extends BaseEntity {
 
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
-
 
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
@@ -53,5 +53,14 @@ public class User extends BaseEntity {
             this.activationExpiryTime = LocalDateTime.now().plusMinutes(5);
         }
     }
-    
+
+    public boolean isActive() {
+        return Boolean.TRUE.equals(this.enabled)
+                && this.status == UserStatus.ACTIVE;
+    }
+
+    public boolean hasRole(ERole role) {
+        return this.roles != null && this.roles.contains(role.name());
+    }
+
 }

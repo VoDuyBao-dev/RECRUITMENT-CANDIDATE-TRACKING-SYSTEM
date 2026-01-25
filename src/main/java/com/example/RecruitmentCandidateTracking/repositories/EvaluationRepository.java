@@ -1,6 +1,9 @@
 package com.example.RecruitmentCandidateTracking.repositories;
 
 import com.example.RecruitmentCandidateTracking.entities.Evaluation;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,9 +15,7 @@ import java.util.Optional;
 @Repository
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     
-    /**
-     * Find evaluation by interview and interviewer
-     */
+// tìm đánh giá theo interviewId và interviewerId
     @Query("SELECT e FROM Evaluation e " +
            "WHERE e.interview.id = :interviewId " +
            "AND e.interviewer.id = :interviewerId")
@@ -23,26 +24,21 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
         @Param("interviewerId") Long interviewerId
     );
     
-    /**
-     * Find all evaluations for an interview
-     */
+// tìm đánh giá theo interviewId với phân trang
     @Query("SELECT e FROM Evaluation e WHERE e.interview.id = :interviewId")
-    List<Evaluation> findByInterviewId(@Param("interviewId") Long interviewId);
+    Page<Evaluation> findByInterviewId(@Param("interviewId") Long interviewId, Pageable pageable);
     
-    /**
-     * Check if evaluation exists for interview and interviewer
-     */
+    @Query("SELECT e FROM Evaluation e WHERE e.interview.id = :interviewId")
+    List<Evaluation> findListByInterviewId(@Param("interviewId") Long interviewId);
+    
+// kiểm tra tồn tại đánh giá theo interviewId và interviewerId
     boolean existsByInterviewIdAndInterviewerId(Long interviewId, Long interviewerId);
     
-    /**
-     * Find all evaluations by an interviewer
-     */
+// tìm đánh giá theo interviewerId
     @Query("SELECT e FROM Evaluation e WHERE e.interviewer.id = :interviewerId ORDER BY e.createdAt DESC")
     List<Evaluation> findByInterviewerId(@Param("interviewerId") Long interviewerId);
     
-    /**
-     * Get average score for an interview
-     */
+// tính điểm trung bình theo interviewId
     @Query("SELECT AVG(e.score) FROM Evaluation e WHERE e.interview.id = :interviewId")
     Double getAverageScoreByInterviewId(@Param("interviewId") Long interviewId);
 }

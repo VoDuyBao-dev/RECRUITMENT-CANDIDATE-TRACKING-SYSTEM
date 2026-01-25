@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface InterviewMapper {
     
-    /**
-     * Convert Interview entity to InterviewResponse
-     */
+// trả về một InterviewResponse từ một Interview entity
     @Mapping(target = "applicationId", source = "application.id")
     @Mapping(target = "candidateName", source = "application.candidate.fullName")
     @Mapping(target = "jobTitle", source = "application.job.title")
@@ -23,14 +21,10 @@ public interface InterviewMapper {
     @Mapping(target = "hasEvaluation", expression = "java(false)") // Will be set in service
     InterviewResponse toResponse(Interview entity);
     
-    /**
-     * Convert list of Interview entities to list of InterviewResponse
-     */
+// trả về một danh sách InterviewResponse từ một danh sách Interview entity
     List<InterviewResponse> toResponseList(List<Interview> entities);
     
-    /**
-     * Map interviewers to InterviewerInfo
-     */
+// ánh xạ tập hợp các User (người phỏng vấn) thành tập hợp các InterviewerInfo trong InterviewResponse
     default Set<InterviewResponse.InterviewerInfo> mapInterviewers(Set<User> interviewers) {
         if (interviewers == null) {
             return null;

@@ -1,6 +1,9 @@
 package com.example.RecruitmentCandidateTracking.repositories;
 
 import com.example.RecruitmentCandidateTracking.entities.Interview;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,22 +15,15 @@ import java.util.List;
 @Repository
 public interface InterviewRepository extends JpaRepository<Interview, Long> {
     
-    /**
-     * Find all interviews for a specific application
-     */
+// tìm interviews theo applicationId với phân trang
     @Query("SELECT i FROM Interview i WHERE i.application.id = :applicationId ORDER BY i.roundNumber")
-    List<Interview> findByApplicationId(@Param("applicationId") Long applicationId);
+    Page<Interview> findByApplicationId(@Param("applicationId") Long applicationId, Pageable pageable);
     
-    /**
-     * Find interviews for a specific interviewer
-     */
+// tìm interviews theo interviewerId với phân trang
     @Query("SELECT i FROM Interview i JOIN i.interviewers u WHERE u.id = :interviewerId ORDER BY i.scheduledTime")
-    List<Interview> findByInterviewerId(@Param("interviewerId") Long interviewerId);
+    Page<Interview> findByInterviewerId(@Param("interviewerId") Long interviewerId, Pageable pageable);
     
-    /**
-     * Check time conflict for an interviewer
-     * Find interviews where the new time overlaps with existing interviews
-     */
+// tìm interviews có xung đột lịch theo interviewerId và khoảng thời gian
     @Query("SELECT i FROM Interview i " +
            "JOIN i.interviewers u " +
            "WHERE u.id = :interviewerId " +
@@ -38,9 +34,7 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
         @Param("endTime") LocalDateTime endTime
     );
     
-    /**
-     * Find upcoming interviews for an interviewer
-     */
+// tìm các interviews sắp tới của một interviewer
     @Query("SELECT i FROM Interview i " +
            "JOIN i.interviewers u " +
            "WHERE u.id = :interviewerId " +
@@ -51,9 +45,7 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
         @Param("now") LocalDateTime now
     );
     
-    /**
-     * Find interviews by round number for an application
-     */
+// tìm interviews theo applicationId và roundNumber
     @Query("SELECT i FROM Interview i " +
            "WHERE i.application.id = :applicationId " +
            "AND i.roundNumber = :roundNumber")

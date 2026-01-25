@@ -101,26 +101,32 @@ public class JobPositionService {
     }
 
     @Transactional
-    public JobPositionResponse changeStatusJob(Long id, JobStatus newStatus) {
+    public JobPositionResponse changeStatusJob(Long id, String statusStr) { 
 
         JobPosition jobPosition = jobPositionRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.JOB_NOT_FOUND));
 
-        JobStatus currentStatus = jobPosition.getStatus();
-
-        if (currentStatus == null) {
+        if (statusStr == null || statusStr.trim().isEmpty()) {
             throw new AppException(ErrorCode.INVALID_JOB_STATUS);
         }
+
+        JobStatus newStatus;
+        try {
+            newStatus = JobStatus.valueOf(statusStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new AppException(ErrorCode.INVALID_JOB_STATUS);
+        }
+
+        JobStatus currentStatus = jobPosition.getStatus();
+
+        // if (currentStatus == null) {
+        //     throw new AppException(ErrorCode.INVALID_JOB_STATUS); // Hoặc xử lý tùy logic
+        // }
 
         // Không cho set lại cùng trạng thái
         if (currentStatus == newStatus) {
             throw new AppException(ErrorCode.JOB_STATUS_NOT_CHANGED);
         }
-
-        // Không cho reopen job đã CLOSED (tuỳ nghiệp vụ)
-        // if (currentStatus == JobStatus.CLOSED && newStatus != JobStatus.CLOSED) {
-        // throw new AppException(ErrorCode.JOB_STATUS_NOT_ALLOWED);
-        // }
 
         jobPosition.setStatus(newStatus);
         jobPosition.setUpdatedAt(LocalDate.now());
@@ -130,16 +136,6 @@ public class JobPositionService {
         return jobMapper.toResponse(savedJob);
     }
 
-    // Lấy tất cả vị trí công việc hiện tại còn đang mở và chưa hết hạn hồ sơ
-    @Transactional(readOnly = true)
-    public List<JobPositionResponse> getAllPublicJobs() {
-        log.info("Fetching all public job positions");
-
-        List<JobPosition> jobs = jobPositionRepository.findAllOpenJobs(LocalDate.now());
-
-        log.info("Found {} public job positions", jobs.size());
-        return jobMapper.toResponseList(jobs);
-    }
 
     @Transactional(readOnly = true)
     public PageResponse<JobPositionResponse> getAllInternalJobs(int page, int size) {

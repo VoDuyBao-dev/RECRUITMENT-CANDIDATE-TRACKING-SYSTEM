@@ -10,9 +10,7 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EvaluationMapper {
     
-    /**
-     * Convert Evaluation entity to EvaluationResponse
-     */
+// chuyển một thực thể Evaluation thành một phản hồi EvaluationResponse
     @Mapping(target = "interviewId", source = "interview.id")
     @Mapping(target = "roundNumber", source = "interview.roundNumber")
     @Mapping(target = "roundName", source = "interview.roundName")
@@ -23,5 +21,5 @@ public interface EvaluationMapper {
     /**
      * Convert list of Evaluation entities to list of EvaluationResponse
      */
-    List<EvaluationResponse> toResponseList(List<Evaluation> entities);
+    // List<EvaluationResponse> toResponseList(List<Evaluation> entities);
 }

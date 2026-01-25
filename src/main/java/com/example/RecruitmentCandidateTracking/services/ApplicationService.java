@@ -72,7 +72,7 @@ public class ApplicationService {
             throw new AppException(ErrorCode.JOB_NOT_FOUND);
         }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "appliedDate"));
         Page<Application> applicationPage = applicationRepository.findByJobId(jobId, pageable);
 
         List<ApplicationResponse> responseList = applicationPage.getContent().stream()
@@ -93,7 +93,7 @@ public class ApplicationService {
     @Transactional(readOnly = true)
     public PageResponse<ApplicationResponse> getAllApplications(int page, int size) {
         // 1. Tạo Pageable
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "appliedDate"));
 
         // 2. Gọi DB
         Page<Application> applicationPage = applicationRepository.findAll(pageable);
@@ -126,7 +126,7 @@ public class ApplicationService {
     // hr lấy tất cả đơn ứng tuyển theo giai đoạn trong quy trình tuyển dụng
     @Transactional(readOnly = true)
     public PageResponse<ApplicationResponse> getApplicationsByStage(PipelineStage stage, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "appliedDate"));
         Page<Application> applicationPage = applicationRepository.findByCurrentStage(stage, pageable);
 
         // Map Entity sang DTO
@@ -145,29 +145,52 @@ public class ApplicationService {
 
     // không thể chuyển từ rejected hoặc hired sang giai đoạn trước đó
     private void validateStageTransition(PipelineStage currentStage, PipelineStage newStage) {
+
         authenticationService.getCurrentUser();
 
-        // Cannot change from terminal stages
-        if (currentStage == PipelineStage.REJECTED) {
+        // 1. Không cho phép thay đổi nếu đã ở trạng thái kết thúc
+        if (currentStage == PipelineStage.REJECTED || currentStage == PipelineStage.HIRED) {
+            throw new AppException(ErrorCode.CANNOT_CHANGE_TERMINAL_STAGE);
+        }
+
+        // 2. Không cho phép chuyển sang chính nó
+        if (currentStage == newStage) {
             throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
         }
 
-        if (currentStage == PipelineStage.HIRED) {
-            throw new AppException(ErrorCode.CANNOT_CHANGE_HIRED_STATUS);
-        }
+        // 3. Validate theo từng trạng thái hiện tại
+        switch (currentStage) {
 
-        // Cannot skip from APPLIED directly to OFFERED (must go through
-        // screening/interview)
-        if (currentStage == PipelineStage.APPLIED && newStage == PipelineStage.OFFERED) {
-            throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
-        }
+            case APPLIED:
+                if (newStage != PipelineStage.SCREENING &&
+                        newStage != PipelineStage.REJECTED) {
+                    throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
+                }
+                break;
 
-        // Cannot go back from OFFERED to earlier stages
-        if (currentStage == PipelineStage.OFFERED &&
-                (newStage == PipelineStage.APPLIED ||
-                        newStage == PipelineStage.SCREENING ||
-                        newStage == PipelineStage.INTERVIEWING)) {
-            throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
+            case SCREENING:
+                if (newStage != PipelineStage.INTERVIEWING &&
+                        newStage != PipelineStage.REJECTED) {
+                    throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
+                }
+                break;
+
+            case INTERVIEWING:
+                if (newStage != PipelineStage.OFFERED &&
+                        newStage != PipelineStage.REJECTED) {
+                    throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
+                }
+                break;
+
+            case OFFERED:
+                if (newStage != PipelineStage.HIRED &&
+                        newStage != PipelineStage.REJECTED) {
+                    throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
+                }
+                break;
+
+            default:
+                throw new AppException(ErrorCode.INVALID_STAGE_TRANSITION);
         }
     }
 

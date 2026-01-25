@@ -14,12 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Interviewer Controller
- * Handles interview evaluation operations for interviewers
- */
 @RestController
-@RequestMapping("/api/v1/interviewer/interviews")
+@RequestMapping("/interviewer/interviews")
 @RequiredArgsConstructor
 @Slf4j
 @PreAuthorize("hasAnyRole('INTERVIEWER', 'HR')")
@@ -27,10 +23,10 @@ public class InterviewerController {
     
     private final InterviewService interviewService;
     
-// lấy lịch phỏng vấn của một interview cụ thể 
+// lấy lịch phỏng vấn của interviewer hiện tại
     @GetMapping
     public ApiResponse<List<InterviewResponse>> getMySchedule() {
-        log.info("GET /api/v1/interviewer/interviews - Fetching my interview schedule");
+        // log.info("GET /api/v1/interviewer/interviews - Fetching my interview schedule");
         
         List<InterviewResponse> interviews = interviewService.getMySchedule();
         
@@ -47,7 +43,7 @@ public class InterviewerController {
     public ApiResponse<EvaluationResponse> submitEvaluation(
             @PathVariable Long id,
             @Valid @RequestBody EvaluationRequest request) {
-        log.info("POST /api/v1/interviewer/interviews/{}/evaluate - Submitting evaluation", id);
+        // log.info("POST /api/v1/interviewer/interviews/{}/evaluate - Submitting evaluation", id);
         
         EvaluationResponse response = interviewService.submitEvaluation(id, request);
         

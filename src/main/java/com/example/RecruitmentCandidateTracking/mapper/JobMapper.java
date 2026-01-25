@@ -7,37 +7,28 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", 
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface JobMapper {
-    
-    /**
-     * Convert JobPositionRequest to JobPosition entity
-     */
+
+    // chuyển một yêu cầu JobPositionRequest thành một thực thể JobPosition
     @Mapping(target = "id", ignore = true)
     // @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "status", ignore = true)
     JobPosition toEntity(JobPositionRequest request);
-    
-    /**
-     * Convert JobPosition entity to JobPositionResponse
-     */
+
+    // chuyển một thực thể JobPosition thành một phản hồi JobPositionResponse
     @Mapping(target = "createdByUsername", source = "entity.createdBy.fullName")
     @Mapping(target = "createdByUserId", source = "entity.createdBy.id")
     JobPositionResponse toResponse(JobPosition entity);
-    
-    /**
-     * Convert list of JobPosition entities to list of JobPositionResponse
-     */
+
+    // chuyển một danh sách các thực thể JobPosition thành một danh sách các phản
+    // hồi JobPositionResponse
     List<JobPositionResponse> toResponseList(List<JobPosition> entities);
-    
-    /**
-     * Update existing JobPosition entity from JobPositionRequest
-     * Only update non-null fields
-     */
+
+    // cập nhật một thực thể JobPosition từ một yêu cầu JobPositionRequest, bỏ qua
+    // các trường không được phép cập nhật
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

@@ -61,7 +61,7 @@ public class HRJobController {
 @PutMapping("/{id}/status/{status}")
 public ApiResponse<JobPositionResponse> changeJobStatus(
         @PathVariable Long id,
-        @PathVariable JobStatus status) {
+        @PathVariable String status) {
 
     JobPositionResponse response = jobPositionService.changeStatusJob(id, status);
 

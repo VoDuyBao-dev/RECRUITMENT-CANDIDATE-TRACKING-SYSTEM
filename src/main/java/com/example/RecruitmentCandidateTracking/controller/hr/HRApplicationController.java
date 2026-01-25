@@ -13,12 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-/**
- * HR Application Controller
- * Handles application management operations for HR
- */
+// Controller quản lý đơn ứng tuyển dành cho HR
 @RestController
 @RequestMapping("/hr/applications")
 @RequiredArgsConstructor
@@ -32,8 +27,6 @@ public class HRApplicationController {
     @GetMapping("/job/{jobId}")
     public ApiResponse<PageResponse<ApplicationResponse>> getApplicationsByJob(@PathVariable Long jobId, @RequestParam(defaultValue = "0") int page, 
             @RequestParam(defaultValue = "10") int size ) {
-        // log.info("GET /api/v1/hr/applications/job/{} - Fetching applications for
-        // job", jobId);
 
         PageResponse<ApplicationResponse> applications = applicationService.getApplicationsByJob(jobId, page, size);
 
@@ -44,16 +37,14 @@ public class HRApplicationController {
                 .build();
     }
 
-    // Lấy tất cả đơn ứng tuyển đã nộp và có phân trang mặc địnhgồm 10 bản ghi mỗi trang
+    // Lấy tất cả đơn ứng tuyển đã nộp và có phân trang mặc định gồm 10 bản ghi mỗi trang
     @GetMapping
     public ApiResponse<PageResponse<ApplicationResponse>> getAllApplications(
             @RequestParam(defaultValue = "0") int page, 
             @RequestParam(defaultValue = "10") int size 
     ) {
-        // Gọi Service
         PageResponse<ApplicationResponse> pageResponse = applicationService.getAllApplications(page, size);
 
-        // Trả về kết quả
         return ApiResponse.<PageResponse<ApplicationResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .message("Retrieved all applications successfully")

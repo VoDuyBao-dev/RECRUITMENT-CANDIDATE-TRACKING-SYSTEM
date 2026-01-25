@@ -20,13 +20,6 @@ public interface JobPositionRepository extends JpaRepository<JobPosition, Long> 
     // Find all jobs by status
     List<JobPosition> findByStatus(JobStatus status);
 
-    // Find all OPEN jobs with valid deadline (for public view)
-    @Query("SELECT j FROM JobPosition j " +
-            "WHERE j.status = 'OPEN' " +
-            "AND j.deadline >= :currentDate " +
-            "ORDER BY j.createdAt DESC")
-    List<JobPosition> findAllOpenJobs(@Param("currentDate") LocalDate currentDate);
-
     // Find all jobs for internal view (HR/Admin) - ordered by latest first
     @Query("SELECT j FROM JobPosition j ORDER BY j.createdAt DESC")
     Page<JobPosition> findAllInternal(Pageable pageable);

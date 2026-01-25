@@ -30,7 +30,7 @@ public class Evaluation extends BaseEntity {
 
     //  Nội dung đánh giá chi tiết
     @Column(nullable = false)
-    private Integer score; // Điểm số (VD: 8/10)
+    private int score; // Điểm số (VD: 8/10)
 
     @Column(columnDefinition = "TEXT")
     private String comment; // Nhận xét chi tiết
