@@ -30,6 +30,7 @@ public enum ErrorCode {
         UNAUTHENTICATED(1007, "Unauthenticated", HttpStatus.UNAUTHORIZED),
         UNAUTHORIZED(1017, "you do not have permission", HttpStatus.FORBIDDEN),
 
+
         // loi login
         INVALID_CREDENTIALS(1012, "invalid credentials", HttpStatus.UNAUTHORIZED),
         PASSWORDS_DO_NOT_MATCH(1013, "Password and confirm password do not match", HttpStatus.BAD_REQUEST),
@@ -131,6 +132,10 @@ public enum ErrorCode {
         CONTRACR_TYPE_REQUIRED(5504, "contract type required", HttpStatus.BAD_REQUEST),
         OFFER_ALREADY_EXISTS(5505, "offer already exists", HttpStatus.BAD_REQUEST),
         INVALID_APPLICATION_STAGE(5506, "invalid application stage", HttpStatus.BAD_REQUEST),
+        DECISION_REQUIRED(5507, "decision required", HttpStatus.BAD_REQUEST),
+        CANDIDATE_NOT_OWNER_OF_APPLICATION(5508, "candidate not owner of application", HttpStatus.BAD_REQUEST),
+        APPLICATION_HAS_NO_OFFER(5509, "application has offer", HttpStatus.BAD_REQUEST),
+        OFFER_ALREADY_RESPONDED(5510, "This offer has already been responded to", HttpStatus.BAD_REQUEST),
 
         ;
 

@@ -1,6 +1,7 @@
 package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.dto.requests.CreateOfferRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.RespondOfferRequest;
 import com.example.RecruitmentCandidateTracking.dto.responses.OfferResponse;
 import com.example.RecruitmentCandidateTracking.entities.Application;
 import com.example.RecruitmentCandidateTracking.entities.Offer;
@@ -77,4 +78,38 @@ public class OfferService {
 
         return offerMapper.toOfferResponse(savedOffer);
     }
+
+//    candidate đồng ý/ từ chối offer
+public void respondToOffer(RespondOfferRequest request) {
+
+    Application application = applicationRepository.findById(request.getApplicationId())
+            .orElseThrow(() -> new AppException(ErrorCode.APPLICATION_NOT_EXISTED));
+
+//    check application đã có offer chưa
+    boolean checkOffer = offerRepository.existsByApplication(application);
+
+    if (!checkOffer) {
+        throw new AppException(ErrorCode.APPLICATION_HAS_NO_OFFER);
+    }
+
+    if(application.getCurrentStage().name().equals("HIRED")) {
+        throw new AppException(ErrorCode.OFFER_ALREADY_RESPONDED);
+    }
+
+    User currentUser = userService.getCurrentUser();
+
+    // Kiểm tra đúng candidate sở hữu application
+    if (!application.getCandidate().getId().equals(currentUser.getId())) {
+        throw new AppException(ErrorCode.CANDIDATE_NOT_OWNER_OF_APPLICATION);
+    }
+
+    if (Boolean.TRUE.equals(request.getAccepted())) {
+        application.setCurrentStage(PipelineStage.HIRED);
+    }
+    else {
+        application.setCurrentStage(PipelineStage.REJECTED);
+    }
+
+    applicationRepository.save(application);
+}
 }
