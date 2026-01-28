@@ -1,6 +1,10 @@
 package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.ChangePasswordRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.CreateUserRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.UserUpdateInformationRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.UserResponse;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.enums.Role;
 import com.example.RecruitmentCandidateTracking.enums.UserStatus;
@@ -75,6 +79,57 @@ public class UserService {
         if (Boolean.FALSE.equals(user.getEnabled())) {
             throw new AppException(ErrorCode.ACCOUNT_DISABLED);
         }
+    }
+
+    public void updateUser(UserUpdateInformationRequest user){
+        String email = getEmailUser();
+        User existingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        existingUser.setFullName(user.getFullName());
+
+        userRepository.save(existingUser);
+
+    }
+
+    public void changePassword(ChangePasswordRequest changePasswordRequest) {
+        if(!changePasswordRequest.getNewPassword().equals(changePasswordRequest.getConfirmNewPassword())){
+            throw new AppException(ErrorCode.PASSWORDS_DO_NOT_MATCH);
+        }
+
+        String email = getEmailUser();
+        User existingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if(!passwordEncoder.matches(changePasswordRequest.getOldPassword(), existingUser.getPasswordHash())){
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
+
+        existingUser.setPasswordHash(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+
+        userRepository.save(existingUser);
+
+    }
+
+    public UserResponse createUserByAdmin(CreateUserRequest createUserRequest) {
+
+        if (userRepository.existsByEmail(createUserRequest.getEmail())) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+
+        User user = User.builder()
+                .email(createUserRequest.getEmail())
+                .fullName(createUserRequest.getFullName())
+                .passwordHash(passwordEncoder.encode(createUserRequest.getPassword()))
+                .roles(new HashSet<>(createUserRequest.getRoles()))
+                .status(UserStatus.ACTIVE)
+                .enabled(true)
+                .build();
+
+
+        userRepository.save(user);
+        return userMapper.toUserResponse(user);
     }
 
 //    Lấy email của user từ token

@@ -51,24 +51,5 @@ public class ApplicationController {
 //                .build();
 //    }
 
-    @GetMapping("/{id}/resume-link")
-    public ApiResponse<String> getResumeLink(@PathVariable Long id) {
-        String viewLink = applicationService.getResumeViewLink(id);
-        return ApiResponse.<String>builder()
-                .code(200)
-                .message("Lấy link xem resume thành công")
-                .result(viewLink)
-                .build();
-    }
 
-    @PostMapping("/testConnect")
-    public ApiResponse<Void> testConnect() {
-
-        googleDriveService.testDriveConnection();
-        return ApiResponse.<Void>builder()
-                .code(200)
-                .message("Nộp đơn ứng tuyển thành công")
-
-                .build();
-    }
 }

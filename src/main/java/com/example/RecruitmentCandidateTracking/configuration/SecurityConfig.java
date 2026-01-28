@@ -42,6 +42,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 // các API public không cần đăng nhập
                 .requestMatchers(PUBLIC_URLS).permitAll()
+                .requestMatchers("/resume/**", "/user/update/**").hasAnyAuthority(
+                        "SCOPE_CANDIDATE",
+                        "SCOPE_ADMIN",
+                        "SCOPE_INTERVIEWER",
+                        "SCOPE_HR"
+                )
                 .requestMatchers("/candidate/**").hasAuthority("SCOPE_CANDIDATE")
                     // tất cả request khác phải đăng nhập
                 .anyRequest().authenticated()
