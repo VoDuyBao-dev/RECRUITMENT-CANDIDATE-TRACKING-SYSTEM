@@ -1,7 +1,7 @@
 package com.example.RecruitmentCandidateTracking.controller.candidate;
 
 import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
-import com.example.RecruitmentCandidateTracking.dto.repsonses.ApplicationResponse;
+import com.example.RecruitmentCandidateTracking.dto.responses.ApplicationResponse;
 import com.example.RecruitmentCandidateTracking.services.ApplicationService;
 import com.example.RecruitmentCandidateTracking.services.GoogleDriveService;
 import lombok.AccessLevel;

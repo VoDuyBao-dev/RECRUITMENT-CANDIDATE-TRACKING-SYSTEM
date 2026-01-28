@@ -1,11 +1,11 @@
 package com.example.RecruitmentCandidateTracking.controller.auth;
 
 import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
-import com.example.RecruitmentCandidateTracking.dto.repsonses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.AuthenticationRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.LogoutRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.RefreshTokenRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.services.AuthenticationService;
