@@ -51,6 +51,9 @@ public enum ErrorCode {
         OLD_PASSWORD_REQUIRED(2011, "Old Password is required", HttpStatus.BAD_REQUEST),
         NEW_PASSWORD_REQUIRED(2012, "New Password is required", HttpStatus.BAD_REQUEST),
         CONFIRM_NEW_PASSWORD_REQUIRED(2013, "Confirm new Password is required", HttpStatus.BAD_REQUEST),
+        CONFIRM_PASSWORD_REQUIRED(2014, "Confirm password is required", HttpStatus.BAD_REQUEST),
+        FULLNAME_REQUIRED(2015, "Full name is required", HttpStatus.BAD_REQUEST),
+
 
         // USER / CANDIDATE
         CANDIDATE_NOT_EXISTED(3001, "Candidate does not exist", HttpStatus.NOT_FOUND),

@@ -2,7 +2,9 @@ package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.ChangePasswordRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.CreateUserRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.UserUpdateInformationRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.UserResponse;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.enums.Role;
 import com.example.RecruitmentCandidateTracking.enums.UserStatus;
@@ -107,6 +109,27 @@ public class UserService {
 
         userRepository.save(existingUser);
 
+    }
+
+    public UserResponse createUserByAdmin(CreateUserRequest createUserRequest) {
+
+        if (userRepository.existsByEmail(createUserRequest.getEmail())) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+
+        User user = User.builder()
+                .email(createUserRequest.getEmail())
+                .fullName(createUserRequest.getFullName())
+                .passwordHash(passwordEncoder.encode(createUserRequest.getPassword()))
+                .roles(new HashSet<>(createUserRequest.getRoles()))
+                .status(UserStatus.ACTIVE)
+                .enabled(true)
+                .build();
+
+
+        userRepository.save(user);
+        return userMapper.toUserResponse(user);
     }
 
 //    Lấy email của user từ token

@@ -36,7 +36,7 @@ public class AuthController {
     AuthenticationService authenticationService;
 
     @PostMapping("/register/candidate")
-    public ApiResponse<User> register(@RequestBody CandidateRequest candidateRequest) {
+    public ApiResponse<User> register(@RequestBody @Valid CandidateRequest candidateRequest) {
         log.info("Register candidate request: {}", candidateRequest);
         User user = userService.createUserCandidate(candidateRequest);
        return ApiResponse.<User>builder()
