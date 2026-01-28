@@ -122,9 +122,6 @@ public class InterviewService {
         application.setCurrentStage(PipelineStage.INTERVIEWING);
         applicationRepository.save(application);
 
-        log.info("Interview scheduled successfully. ID: {}, Round: {}",
-                savedInterview.getId(), savedInterview.getRoundNumber());
-
         return interviewMapper.toResponse(savedInterview);
     }
 
@@ -191,7 +188,6 @@ public class InterviewService {
         return interviewMapper.toResponse(updatedInterview);
     }
 
-
     @Transactional
     public EvaluationResponse submitEvaluation(Long interviewId, EvaluationRequest request) {
         // log.info("Submitting evaluation for interview ID: {}", interviewId);
@@ -236,19 +232,10 @@ public class InterviewService {
 
             Application application = interview.getApplication();
 
-            // Suggest stage change based on average score
-            if (averageScore != null && averageScore >= 70) {
-                // High score - move to OFFERED
-                application.setCurrentStage(PipelineStage.OFFERED);
-                log.info("Application {} passed interview with average score {}",
-                        application.getId(), averageScore);
-            } else if (averageScore != null && averageScore < 50) {
-                // Low score - reject
+            if (averageScore != null && averageScore < 50) {
                 application.setCurrentStage(PipelineStage.REJECTED);
-                log.info("Application {} failed interview with average score {}",
-                        application.getId(), averageScore);
+
             }
-            // If score is between 5-7, keep in INTERVIEWING for further rounds
 
             applicationRepository.save(application);
         }
@@ -256,29 +243,19 @@ public class InterviewService {
         return evaluationMapper.toResponse(savedEvaluation);
     }
 
-    /**
-     * Get interviewer's schedule
-     */
+
     @Transactional(readOnly = true)
     public List<InterviewResponse> getMySchedule() {
         User currentUser = authenticationService.getCurrentUser();
 
-        // log.info("Fetching interview schedule for interviewer: {}",
-        // currentUser.getUsername());
 
         List<Interview> interviews = interviewRepository.findUpcomingInterviewsByInterviewer(
                 currentUser.getId(),
                 LocalDateTime.now());
 
-        log.info("Found {} upcoming interviews for interviewer ID: {}",
-                interviews.size(), currentUser.getId());
-
         return interviewMapper.toResponseList(interviews);
     }
 
-    /**
-     * Get all interviews for an application
-     */
     @Transactional(readOnly = true)
     public PageResponse<InterviewResponse> getInterviewsByApplication(Long applicationId, int page, int size) {
         // log.info("Fetching interviews for application ID: {}", applicationId);

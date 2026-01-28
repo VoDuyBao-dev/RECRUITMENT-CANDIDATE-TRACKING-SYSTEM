@@ -11,11 +11,10 @@ import java.util.List;
 public interface JobMapper {
 
     // chuyển một yêu cầu JobPositionRequest thành một thực thể JobPosition
-    @Mapping(target = "id", ignore = true)
-    // @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @Mapping(target = "branchName", source = "request.branchName")
     JobPosition toEntity(JobPositionRequest request);
 
     // chuyển một thực thể JobPosition thành một phản hồi JobPositionResponse

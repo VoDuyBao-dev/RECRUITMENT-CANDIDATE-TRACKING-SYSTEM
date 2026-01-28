@@ -33,4 +33,5 @@ public class JobPositionResponse {
     private LocalDate updatedAt;
     private String createdByUsername; // Username của người tạo
     private Long createdByUserId;     // ID của người tạo
+    private String branchName;
 }
