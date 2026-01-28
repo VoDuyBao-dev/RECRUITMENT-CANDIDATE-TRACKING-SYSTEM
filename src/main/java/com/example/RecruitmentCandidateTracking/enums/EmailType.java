@@ -15,6 +15,11 @@ public enum EmailType {
     RESET_PASSWORD(
             "Reset your password",
             "email/reset_password_email"
+    ),
+
+    OFFER_NOTIFICATION(
+            "Job Offer from Recruitment System",
+                    "email/offer_email"
     );
 
     private final String subject;

@@ -51,6 +51,49 @@ public class EmailService {
         }
     }
 
+    @Async
+    public void sendOfferEmail(
+            String to,
+            String candidateName,
+            String jobTitle,
+            String contractType,
+            String startWorkDate,
+            String basicSalary,
+            String probationSalary,
+            String approvedByName
+    ) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject(EmailType.OFFER_NOTIFICATION.getSubject());
+
+            Context context = new Context();
+            context.setVariable("candidateName", candidateName);
+            context.setVariable("jobTitle", jobTitle);
+            context.setVariable("contractType", contractType);
+            context.setVariable("startWorkDate", startWorkDate);
+            context.setVariable("basicSalary", basicSalary);
+            context.setVariable("probationSalary", probationSalary);
+            context.setVariable("approvedByName", approvedByName);
+            context.setVariable("appName", "Recruitment & Candidate Tracking System");
+
+            String htmlContent = templateEngine.process(
+                    EmailType.OFFER_NOTIFICATION.getTemplate(),
+                    context
+            );
+
+            helper.setText(htmlContent, true);
+
+            mailSender.send(mimeMessage);
+            log.info("Gửi email OFFER thành công đến: {}", to);
+
+        } catch (Exception e) {
+            log.error("Lỗi khi gửi email OFFER đến {}: ", to, e);
+        }
+    }
+
     public void sendPlainText(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);

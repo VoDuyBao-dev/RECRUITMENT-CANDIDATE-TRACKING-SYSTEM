@@ -121,7 +121,16 @@ public enum ErrorCode {
                         HttpStatus.BAD_REQUEST),
         NOT_ASSIGNED_INTERVIEWER(5006, "You are not assigned as interviewer for this interview", HttpStatus.FORBIDDEN),
         EVALUATION_ALREADY_SUBMITTED(5007, "You have already submitted evaluation for this interview",
-                        HttpStatus.CONFLICT);
+                        HttpStatus.CONFLICT),
+
+//        OFFER
+        APPLICATIONID_REQUIRED(5500, "applicationID required", HttpStatus.BAD_REQUEST),
+        START_WORK_DATE_REQUIRED(5501, "start work date required", HttpStatus.BAD_REQUEST),
+        START_WORK_DATE_INVALID(5502, "start work date must not be in past", HttpStatus.BAD_REQUEST),
+        BASIC_SALARY_REQUIRED(5503, "basic salary required", HttpStatus.BAD_REQUEST),
+        CONTRACR_TYPE_REQUIRED(5504, "contract type required", HttpStatus.BAD_REQUEST),
+        OFFER_ALREADY_EXISTS(5505, "offer already exists", HttpStatus.BAD_REQUEST),
+        INVALID_APPLICATION_STAGE(5506, "invalid application stage", HttpStatus.BAD_REQUEST),
 
         ;
 
