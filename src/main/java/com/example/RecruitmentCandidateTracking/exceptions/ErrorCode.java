@@ -48,6 +48,9 @@ public enum ErrorCode {
         EMAIL_INVALID(2008, "Invalid email format", HttpStatus.BAD_REQUEST),
         PASSWORD_REQUIRED(2009, "Password is required", HttpStatus.BAD_REQUEST),
         PASSWORD_TOO_SHORT(2010, "Password must be between 6 and 30 characters", HttpStatus.BAD_REQUEST),
+        OLD_PASSWORD_REQUIRED(2011, "Old Password is required", HttpStatus.BAD_REQUEST),
+        NEW_PASSWORD_REQUIRED(2012, "New Password is required", HttpStatus.BAD_REQUEST),
+        CONFIRM_NEW_PASSWORD_REQUIRED(2013, "Confirm new Password is required", HttpStatus.BAD_REQUEST),
 
         // USER / CANDIDATE
         CANDIDATE_NOT_EXISTED(3001, "Candidate does not exist", HttpStatus.NOT_FOUND),

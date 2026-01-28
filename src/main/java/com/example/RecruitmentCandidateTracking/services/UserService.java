@@ -1,6 +1,7 @@
 package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.ChangePasswordRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.UserUpdateInformationRequest;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.enums.Role;
@@ -84,6 +85,25 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         existingUser.setFullName(user.getFullName());
+
+        userRepository.save(existingUser);
+
+    }
+
+    public void changePassword(ChangePasswordRequest changePasswordRequest) {
+        if(!changePasswordRequest.getNewPassword().equals(changePasswordRequest.getConfirmNewPassword())){
+            throw new AppException(ErrorCode.PASSWORDS_DO_NOT_MATCH);
+        }
+
+        String email = getEmailUser();
+        User existingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if(!passwordEncoder.matches(changePasswordRequest.getOldPassword(), existingUser.getPasswordHash())){
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
+
+        existingUser.setPasswordHash(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
 
         userRepository.save(existingUser);
 
