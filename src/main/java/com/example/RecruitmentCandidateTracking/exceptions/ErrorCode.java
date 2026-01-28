@@ -30,6 +30,7 @@ public enum ErrorCode {
         UNAUTHENTICATED(1007, "Unauthenticated", HttpStatus.UNAUTHORIZED),
         UNAUTHORIZED(1017, "you do not have permission", HttpStatus.FORBIDDEN),
 
+
         // loi login
         INVALID_CREDENTIALS(1012, "invalid credentials", HttpStatus.UNAUTHORIZED),
         PASSWORDS_DO_NOT_MATCH(1013, "Password and confirm password do not match", HttpStatus.BAD_REQUEST),
@@ -121,7 +122,20 @@ public enum ErrorCode {
                         HttpStatus.BAD_REQUEST),
         NOT_ASSIGNED_INTERVIEWER(5006, "You are not assigned as interviewer for this interview", HttpStatus.FORBIDDEN),
         EVALUATION_ALREADY_SUBMITTED(5007, "You have already submitted evaluation for this interview",
-                        HttpStatus.CONFLICT);
+                        HttpStatus.CONFLICT),
+
+//        OFFER
+        APPLICATIONID_REQUIRED(5500, "applicationID required", HttpStatus.BAD_REQUEST),
+        START_WORK_DATE_REQUIRED(5501, "start work date required", HttpStatus.BAD_REQUEST),
+        START_WORK_DATE_INVALID(5502, "start work date must not be in past", HttpStatus.BAD_REQUEST),
+        BASIC_SALARY_REQUIRED(5503, "basic salary required", HttpStatus.BAD_REQUEST),
+        CONTRACR_TYPE_REQUIRED(5504, "contract type required", HttpStatus.BAD_REQUEST),
+        OFFER_ALREADY_EXISTS(5505, "offer already exists", HttpStatus.BAD_REQUEST),
+        INVALID_APPLICATION_STAGE(5506, "invalid application stage", HttpStatus.BAD_REQUEST),
+        DECISION_REQUIRED(5507, "decision required", HttpStatus.BAD_REQUEST),
+        CANDIDATE_NOT_OWNER_OF_APPLICATION(5508, "candidate not owner of application", HttpStatus.BAD_REQUEST),
+        APPLICATION_HAS_NO_OFFER(5509, "application has offer", HttpStatus.BAD_REQUEST),
+        OFFER_ALREADY_RESPONDED(5510, "This offer has already been responded to", HttpStatus.BAD_REQUEST),
 
         ;
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Offer</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+
+<h2>Dear <span th:text="${candidateName}">Candidate</span>,</h2>
+
+<p>
+  We are pleased to inform you that after reviewing your application and interview results,
+  we would like to officially offer you the position of
+  <strong th:text="${jobTitle}">Job Title</strong>
+  at our company.
+</p>
+
+<h3>Offer Details</h3>
+<ul>
+  <li><strong>Position:</strong> <span th:text="${jobTitle}"></span></li>
+  <li><strong>Contract Type:</strong> <span th:text="${contractType}"></span></li>
+  <li><strong>Start Date:</strong> <span th:text="${startWorkDate}"></span></li>
+  <li><strong>Basic Salary:</strong> <span th:text="${basicSalary}"></span></li>
+  <li><strong>Probation Salary:</strong>
+    <span th:text="${probationSalary}"></span>
+  </li>
+</ul>
+<p>
+  We look forward to your response and hope to welcome you to our team.
+</p>
+
+<p>
+  Best regards,<br/>
+  <strong th:text="${approvedByName}">HR</strong><br/>
+  Human Resources Department<br/>
+  <span th:text="${appName}">Company Name</span>
+</p>
+
+</body>
+</html>

@@ -217,6 +217,10 @@ public class ApplicationService {
         Application application = applicationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPLICATION_NOT_FOUND));
 
+//        Chuyển từ resumeID sang link xem resume
+        String linkResume = googleDriveService.getViewLink(application.getResumePath());
+        application.setResumePath(linkResume);
+
         return applicationMapper.toApplicationResponse(application);
     }
 

@@ -139,5 +139,13 @@ public class UserService {
 
     }
 
+    public User getCurrentUser(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        return user;
+
+    }
+
 
 }
