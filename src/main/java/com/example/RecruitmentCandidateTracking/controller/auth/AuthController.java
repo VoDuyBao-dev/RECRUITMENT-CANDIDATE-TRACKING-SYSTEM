@@ -4,11 +4,14 @@ import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
 import com.example.RecruitmentCandidateTracking.dto.repsonses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.AuthenticationRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.LogoutRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.RefreshTokenRequest;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.services.AuthenticationService;
 import com.example.RecruitmentCandidateTracking.services.UserService;
 import com.example.RecruitmentCandidateTracking.services.VerificationTokenService;
+import com.nimbusds.jose.JOSEException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,6 +73,25 @@ public class AuthController {
                 .result(authenticationResponse)
                 .build();
 
+    }
+
+    @PostMapping("/refresh-token")
+    public ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request) throws ParseException, JOSEException {
+        AuthenticationResponse authenticationResponse = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .code(200)
+                .message("Làm mới token thành công")
+                .result(authenticationResponse)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    public  ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
+                .code(200)
+                .message("Đăng xuất thành công")
+                .build();
     }
 
 

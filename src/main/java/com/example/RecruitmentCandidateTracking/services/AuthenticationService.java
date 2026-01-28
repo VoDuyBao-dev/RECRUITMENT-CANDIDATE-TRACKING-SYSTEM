@@ -3,6 +3,9 @@ package com.example.RecruitmentCandidateTracking.services;
 import com.example.RecruitmentCandidateTracking.configuration.TokenValidator;
 import com.example.RecruitmentCandidateTracking.dto.repsonses.AuthenticationResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.AuthenticationRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.LogoutRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.RefreshTokenRequest;
+import com.example.RecruitmentCandidateTracking.entities.InvalidatedToken;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.exceptions.AppException;
 import com.example.RecruitmentCandidateTracking.exceptions.ErrorCode;
@@ -11,6 +14,7 @@ import com.example.RecruitmentCandidateTracking.repositories.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -75,6 +80,51 @@ public class AuthenticationService {
                 .authenticated(true)
                 .build();
 
+    }
+
+    public void logout (LogoutRequest logoutRequest) throws ParseException, JOSEException {
+
+        try{
+            SignedJWT signToken = tokenValidator.verifyToken(logoutRequest.getToken(), false);
+            invalidateToken(signToken);
+        }catch (AppException e){
+            log.info("token already expired");
+
+        }
+
+    }
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) throws ParseException, JOSEException {
+        SignedJWT signedJWT = tokenValidator.verifyToken(refreshTokenRequest.getRefreshToken(), true);
+        try{
+            invalidateToken(signedJWT);
+        }catch (Exception e){
+            log.error("Lỗi khi thu hồi token để refresh token: ", e);
+            throw new AppException(ErrorCode.SAVE_INVALIDATED_TOKEN_FAILED);
+        }
+        String email = signedJWT.getJWTClaimsSet().getSubject();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        String newToken = generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(newToken)
+                .authenticated(true)
+                .build();
+
+    }
+
+
+    //    đưa token hết hạn hoặc bị thu hồi vào bảng invalidated_tokens
+    private void invalidateToken(SignedJWT signedJWT) throws ParseException {
+        String jti = signedJWT.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jti)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
     }
 
     private String generateToken(User user) throws KeyLengthException {

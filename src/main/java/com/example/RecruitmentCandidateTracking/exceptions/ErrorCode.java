@@ -18,6 +18,8 @@ public enum ErrorCode {
         MISSING_PARAMETER(9996, "Missing required parameter", HttpStatus.BAD_REQUEST),
         METHOD_INVALID(9995, "Method is not supported", HttpStatus.BAD_REQUEST),
 
+
+
         USER_EXISTED(1002, "user existed", HttpStatus.BAD_REQUEST),
         USER_NOT_EXISTED(1005, "user not existed", HttpStatus.NOT_FOUND),
         SAVE_USER_FAILED(1014, "save user failed", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -42,10 +44,39 @@ public enum ErrorCode {
         ACCOUNT_DISABLED(2004, "account disabled", HttpStatus.BAD_REQUEST),
         ACCOUNT_INACTIVE(2005, "account locked", HttpStatus.BAD_REQUEST),
         UNKNOWN_USER_STATUS(2006, "unknown user status", HttpStatus.INTERNAL_SERVER_ERROR),
+        SAVE_INVALIDATED_TOKEN_FAILED(2007, "save invalidated token failed", HttpStatus.INTERNAL_SERVER_ERROR),
+
+        EMAIL_INVALID(2008, "Invalid email format", HttpStatus.BAD_REQUEST),
+        PASSWORD_REQUIRED(2009, "Password is required", HttpStatus.BAD_REQUEST),
+        PASSWORD_TOO_SHORT(2010, "Password must be between 6 and 30 characters", HttpStatus.BAD_REQUEST),
+
+        // USER / CANDIDATE
+        CANDIDATE_NOT_EXISTED(3001, "Candidate does not exist", HttpStatus.NOT_FOUND),
+
+        // JOB POSITION
+        JOB_POSITION_NOT_EXISTED(3002, "Job position does not exist", HttpStatus.NOT_FOUND),
+        ALREADY_APPLIED_JOB(3003, "You have already applied for this job", HttpStatus.BAD_REQUEST),
+
+        //APPLICATION
+        APPLICATION_NOT_EXISTED(3004, "Application does not exist", HttpStatus.NOT_FOUND),
+
+        //  GOOGLE DRIVE
+        DRIVE_UPLOAD_FAILED(3501, "Failed to upload resume to Google Drive", HttpStatus.INTERNAL_SERVER_ERROR),
+        DRIVE_GET_LINK_FAILED(3502, "Failed to get resume view link", HttpStatus.INTERNAL_SERVER_ERROR),
+        DRIVE_DELETE_FAILED(3503, "Failed to delete resume from Google Drive", HttpStatus.INTERNAL_SERVER_ERROR),
+        DRIVE_CONNECTION_FAILED(3504, "Drive connection failed", HttpStatus.INTERNAL_SERVER_ERROR),
+
+        //FILE VALIDATION
+        FILE_REQUIRED(4001, "Resume file is required", HttpStatus.BAD_REQUEST),
+        FILE_TOO_LARGE(4002, "File size must not exceed 5MB", HttpStatus.BAD_REQUEST),
+        INVALID_FILE_TYPE(4003, "Only PDF files are allowed", HttpStatus.BAD_REQUEST),
+        INVALID_FILE_CONTENT(4004, "Invalid PDF file content", HttpStatus.BAD_REQUEST),
+        FILE_READ_FAILED(4005, "Failed to read resume file", HttpStatus.INTERNAL_SERVER_ERROR);
 
 
 
-        
+
+
         ;
 
         private int code;

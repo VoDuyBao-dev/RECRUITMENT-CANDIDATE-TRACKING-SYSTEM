@@ -24,6 +24,8 @@ public class SecurityConfig {
     private CustomJwtDecoder customJwtDecoder;
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
 
     private final String[] COMMON_URLS = {
@@ -40,14 +42,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 // các API public không cần đăng nhập
                 .requestMatchers(PUBLIC_URLS).permitAll()
-
+                .requestMatchers("/candidate/**").hasAuthority("SCOPE_CANDIDATE")
                     // tất cả request khác phải đăng nhập
                 .anyRequest().authenticated()
             )
+
 //        xử lý xác thực jwt
             .oauth2ResourceServer(oauth2 -> oauth2
                     .jwt(jwt -> jwt.decoder(customJwtDecoder))
                     .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            )
+
+            //                xử lý khi người dùng chưa xác thực được
+            .exceptionHandling(ex -> ex
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler)
             )
 //
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))

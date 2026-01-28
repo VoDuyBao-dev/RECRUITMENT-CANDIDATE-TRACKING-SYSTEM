@@ -47,7 +47,7 @@ public class VerificationTokenService {
 
         tokenRepository.save(verificationToken);
 
-        String verifyLink = "http://localhost:8080/RecruitmentCandidateTracking/auth/verify?token=" + token;
+        String verifyLink = "http://localhost:8080/RecruitmentCandidateTracking/auth/verify-email?token=" + token;
 
         long a = System.currentTimeMillis();
         emailService.sendEmail(
