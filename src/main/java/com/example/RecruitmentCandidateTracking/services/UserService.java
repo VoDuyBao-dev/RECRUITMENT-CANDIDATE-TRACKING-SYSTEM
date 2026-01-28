@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,13 @@ public class UserService {
         if (Boolean.FALSE.equals(user.getEnabled())) {
             throw new AppException(ErrorCode.ACCOUNT_DISABLED);
         }
+    }
+
+//    Lấy email của user từ token
+    public String getEmailUser(){
+        String context = SecurityContextHolder.getContext().getAuthentication().getName();
+        return context;
+
     }
 
 

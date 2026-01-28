@@ -80,3 +80,5 @@ src/main/resources/application-secret.yaml
 # Google Drive Credentials
 google-drive-credentials.json
 
+google-drive-service-account.json
+

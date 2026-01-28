@@ -17,6 +17,7 @@ import java.util.Optional;
 @Repository
 public interface JobPositionRepository extends JpaRepository<JobPosition, Long> {
 
+
     // Find all jobs by status
     List<JobPosition> findByStatus(JobStatus status);
 
