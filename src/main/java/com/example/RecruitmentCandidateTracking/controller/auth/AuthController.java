@@ -52,14 +52,14 @@ public class AuthController {
 
         try {
             verificationTokenService.verifyAccount(token);
-            response.sendRedirect("http://localhost:3000/RecruitmentCandidateTracking/login?verified=true");
+            response.sendRedirect("http://localhost:3000/login?verified=true");
 
         } catch (AppException ex) {
-            response.sendRedirect("http://localhost:3000/RecruitmentCandidateTracking/login?verified=false&code=" + ex.getErrorCode().name());
+            response.sendRedirect("http://localhost:3000/login?verified=false&code=" + ex.getErrorCode().name());
         }
         catch (Exception ex) {
             log.error("Lỗi khi xác thực tài khoản", ex);
-            response.sendRedirect("http://localhost:3000/RecruitmentCandidateTracking/login?verified=false&code=AUTHENTICATION_ERROR");
+            response.sendRedirect("http://localhost:3000/login?verified=false&code=AUTHENTICATION_ERROR");
         }
 
     }

@@ -1,6 +1,7 @@
 package com.example.RecruitmentCandidateTracking.services;
 
 import com.example.RecruitmentCandidateTracking.dto.requests.CandidateRequest;
+import com.example.RecruitmentCandidateTracking.dto.requests.UserUpdateInformationRequest;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import com.example.RecruitmentCandidateTracking.enums.Role;
 import com.example.RecruitmentCandidateTracking.enums.UserStatus;
@@ -75,6 +76,17 @@ public class UserService {
         if (Boolean.FALSE.equals(user.getEnabled())) {
             throw new AppException(ErrorCode.ACCOUNT_DISABLED);
         }
+    }
+
+    public void updateUser(UserUpdateInformationRequest user){
+        String email = getEmailUser();
+        User existingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        existingUser.setFullName(user.getFullName());
+
+        userRepository.save(existingUser);
+
     }
 
 //    Lấy email của user từ token
