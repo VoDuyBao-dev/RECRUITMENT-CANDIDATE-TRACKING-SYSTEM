@@ -34,7 +34,6 @@ public class JobPositionService {
 
     @Transactional
     public JobPositionResponse createJob(JobPositionRequest request) {
-        log.info("Creating new job position: {}", request.getTitle());
 
         // Validate dates
         validateJobDates(request.getStartDate(), request.getDeadline());
