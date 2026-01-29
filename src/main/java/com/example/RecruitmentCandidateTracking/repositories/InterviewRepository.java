@@ -66,4 +66,12 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
 
     @Query("SELECT i FROM Interview i JOIN i.interviewers u WHERE u.id = :interviewerId")
     List<Interview> findAllByInterviewerId(@Param("interviewerId") Long interviewerId);
+
+    @Query("""
+        SELECT i FROM Interview i
+        WHERE i.application.id = :applicationId
+          AND i.scheduledTime >= CURRENT_TIMESTAMP
+        ORDER BY i.scheduledTime ASC
+    """)
+    List<Interview> findUpcomingInterview(@Param("applicationId") Long applicationId);
 }

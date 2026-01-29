@@ -1,6 +1,7 @@
 package com.example.RecruitmentCandidateTracking.mapper;
 
 import com.example.RecruitmentCandidateTracking.dto.responses.ApplicationResponse;
+import com.example.RecruitmentCandidateTracking.dto.responses.CandidateAppliedJobResponse;
 import com.example.RecruitmentCandidateTracking.entities.Application;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,6 +23,19 @@ public interface ApplicationMapper {
     @Mapping(target = "jobTitle", source = "job.title")
     @Mapping(target = "totalInterviews", expression = "java(entity.getInterviews() != null ? entity.getInterviews().size() : 0)")
     ApplicationResponse toApplicationResponse(Application entity);
+
+    @Mapping(target = "applicationId", source = "id")
+    @Mapping(target = "jobId", source = "job.id")
+    @Mapping(target = "jobTitle", source = "job.title")
+    @Mapping(target = "address", source = "job.address")
+    @Mapping(target = "salary", source = "job.basicSalary")
+    CandidateAppliedJobResponse toAppliedJobResponse(Application application);
+
+
+
+
+
+
 
     // @Mapping(target = "candidateId", source = "candidate.id")
     // @Mapping(target = "candidateName", source = "candidate.fullName")

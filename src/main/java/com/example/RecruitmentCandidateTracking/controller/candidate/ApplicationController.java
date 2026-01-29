@@ -2,16 +2,18 @@ package com.example.RecruitmentCandidateTracking.controller.candidate;
 
 import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.ApplicationResponse;
+import com.example.RecruitmentCandidateTracking.dto.responses.CandidateAppliedJobResponse;
 import com.example.RecruitmentCandidateTracking.services.ApplicationService;
-import com.example.RecruitmentCandidateTracking.services.GoogleDriveService;
+import com.example.RecruitmentCandidateTracking.services.CandidateApplicationService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +27,8 @@ import java.util.List;
 public class ApplicationController {
 
    ApplicationService applicationService;
-   GoogleDriveService googleDriveService;
+
+    CandidateApplicationService candidateApplicationService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ApplicationResponse> submitApplication(
@@ -40,16 +43,21 @@ public class ApplicationController {
                 .build();
     }
 
-//    @GetMapping("/my-applications")
-//    public ApiResponse<List<ApplicationResponse>> getMyApplications(@AuthenticationPrincipal Jwt jwt) {
-//        String email = jwt.getSubject();
-//        List<ApplicationResponse> applications = applicationService.getCandidateApplications(email);
-//        return ApiResponse.<List<ApplicationResponse>>builder()
-//                .code(200)
-//                .message("Lấy danh sách đơn ứng tuyển thành công")
-//                .result(applications)
-//                .build();
-//    }
+    @GetMapping("/applied-jobs")
+    public ApiResponse<List<CandidateAppliedJobResponse>> getAppliedJobs() {
+
+        List<CandidateAppliedJobResponse> result = candidateApplicationService.getAppliedJobs();
+
+        return ApiResponse.<List<CandidateAppliedJobResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message("Lấy danh sách công việc đã ứng tuyển thành công")
+                .result(result)
+                .build();
+    }
+
+
+
+
 
 
 }
