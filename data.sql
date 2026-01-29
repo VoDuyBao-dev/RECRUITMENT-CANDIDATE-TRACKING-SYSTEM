@@ -1,8 +1,8 @@
-INSERT INTO roles (role_name) VALUES
-('ADMIN'),
-('HR'),
-('INTERVIEWER'),
-('CANDIDATE');
+-- INSERT INTO user_roles (role_name) VALUES
+-- ('ADMIN'),
+-- ('HR'),
+-- ('INTERVIEWER'),
+-- ('CANDIDATE');
 
 -- mật khẩu 12345678 
 INSERT INTO users (created_at, email, enabled, full_name, password_hash, status)
