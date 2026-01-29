@@ -49,4 +49,22 @@ public interface JobPositionRepository extends JpaRepository<JobPosition, Long> 
     List<JobPosition> findJobsInDateRange(@Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
 
+
+    @Query("""
+    SELECT j FROM JobPosition j
+    WHERE j.status = :status
+      AND (
+           :keyword IS NULL
+           OR LOWER(j.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR LOWER(j.address) LIKE LOWER(CONCAT('%', :keyword, '%'))
+      )
+    ORDER BY j.createdAt DESC
+""")
+    Page<JobPosition> searchOpenJobsByKeyword(
+            @Param("status") JobStatus status,
+            @Param("keyword") String keyword,
+            Pageable pageable
+    );
+
+
 }

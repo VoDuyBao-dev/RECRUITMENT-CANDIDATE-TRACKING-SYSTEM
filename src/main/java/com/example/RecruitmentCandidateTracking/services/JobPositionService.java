@@ -166,6 +166,33 @@ public class JobPositionService {
         return jobMapper.toResponse(jobPosition);
     }
 
+    @Transactional(readOnly = true)
+    public PageResponse<JobPositionResponse> searchJobsForCandidate(
+            String keyword,
+            int page,
+            int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        String searchKey = (keyword == null || keyword.isBlank()) ? null : keyword.trim();
+
+        Page<JobPosition> jobs = jobPositionRepository.searchOpenJobsByKeyword(JobStatus.OPEN, searchKey, pageable);
+
+        List<JobPositionResponse> responseList = jobs.getContent()
+                .stream()
+                .map(jobMapper::toResponse)
+                .toList();
+
+        return PageResponse.of(
+                responseList,
+                jobs.getNumber(),
+                jobs.getSize(),
+                jobs.getTotalElements(),
+                jobs.getTotalPages()
+        );
+    }
+
+
     // @Transactional
     // public void deleteJob(Long id) {
     //     log.info("Deleting job position with ID: {}", id);
