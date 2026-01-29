@@ -3,16 +3,14 @@ package com.example.RecruitmentCandidateTracking.controller.auth;
 import com.example.RecruitmentCandidateTracking.dto.ApiResponse;
 import com.example.RecruitmentCandidateTracking.dto.requests.ChangePasswordRequest;
 import com.example.RecruitmentCandidateTracking.dto.requests.UserUpdateInformationRequest;
+import com.example.RecruitmentCandidateTracking.dto.responses.UserResponse;
 import com.example.RecruitmentCandidateTracking.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user/update")
@@ -21,6 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class UpdateController {
     UserService userService;
+
+    @GetMapping("/info")
+    public ApiResponse<UserResponse> getInfoUser() {
+        UserResponse user = userService.getCurrentUserInfo();
+        return ApiResponse.<UserResponse>builder()
+                .code(200)
+                .message("Lấy thông tin cá nhân thành công")
+                .result(user)
+                .build();
+    }
 
     @PatchMapping("/info")
     public ApiResponse<Void> updateInfoUser(@RequestBody UserUpdateInformationRequest user) {
