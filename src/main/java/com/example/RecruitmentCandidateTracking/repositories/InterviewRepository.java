@@ -62,4 +62,8 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
             "application.job"
     })
     Optional<Interview> findDetailById(Long id);
+
+    // New: fetch all interviews for a given interviewer (no pagination)
+    @Query("SELECT i FROM Interview i JOIN i.interviewers u WHERE u.id = :interviewerId")
+    List<Interview> findAllByInterviewerId(@Param("interviewerId") Long interviewerId);
 }

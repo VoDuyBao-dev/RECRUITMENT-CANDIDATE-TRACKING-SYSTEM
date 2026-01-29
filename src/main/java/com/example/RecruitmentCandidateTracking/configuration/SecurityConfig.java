@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .requestMatchers("/candidate/**").hasAuthority("SCOPE_CANDIDATE")
                 .requestMatchers("/hr/**").hasAuthority("SCOPE_HR")
                 .requestMatchers("/admin/**").hasAuthority("SCOPE_ADMIN")
+                .requestMatchers("/interviewer/**").hasAuthority("SCOPE_INTERVIEWER")
                     // tất cả request khác phải đăng nhập
                 .anyRequest().authenticated()
             )
