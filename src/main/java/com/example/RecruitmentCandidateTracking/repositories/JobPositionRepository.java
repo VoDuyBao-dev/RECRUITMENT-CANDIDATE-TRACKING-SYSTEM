@@ -67,4 +67,40 @@ public interface JobPositionRepository extends JpaRepository<JobPosition, Long> 
     );
 
 
+    @Query("""
+    SELECT j FROM JobPosition j
+    WHERE j.status = :status
+      AND j.id <> :excludedId
+      AND (
+           LOWER(j.address) LIKE LOWER(CONCAT('%', :address, '%'))
+        OR LOWER(j.branchName) LIKE LOWER(CONCAT('%', :branchName, '%'))
+        OR LOWER(j.title) LIKE LOWER(CONCAT('%', :title, '%'))
+      )
+    ORDER BY j.createdAt DESC
+""")
+    Page<JobPosition> findRelatedJobs(
+            @Param("status") JobStatus status,
+            @Param("excludedId") Long excludedId,
+            @Param("address") String address,
+            @Param("branchName") String branchName,
+            @Param("title") String title,
+            Pageable pageable
+    );
+
+    @Query("""
+    SELECT j FROM JobPosition j
+    WHERE j.status = :status
+      AND j.id <> :excludedId
+      AND j.id NOT IN :excludedIds
+    ORDER BY j.createdAt DESC
+""")
+    Page<JobPosition> findFallbackJobs(
+            @Param("status") JobStatus status,
+            @Param("excludedId") Long excludedId,
+            @Param("excludedIds") List<Long> excludedIds,
+            Pageable pageable
+    );
+
+
+
 }
