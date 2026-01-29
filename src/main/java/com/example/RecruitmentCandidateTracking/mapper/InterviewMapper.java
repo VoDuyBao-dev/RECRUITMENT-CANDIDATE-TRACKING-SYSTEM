@@ -1,5 +1,6 @@
 package com.example.RecruitmentCandidateTracking.mapper;
 
+import com.example.RecruitmentCandidateTracking.dto.responses.InterviewEvaluationDetailResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.InterviewResponse;
 import com.example.RecruitmentCandidateTracking.entities.Interview;
 import com.example.RecruitmentCandidateTracking.entities.User;
@@ -37,4 +38,12 @@ public interface InterviewMapper {
                         .build())
                 .collect(Collectors.toSet());
     }
+
+    @Mapping(target = "interviewId", source = "id")
+    @Mapping(target = "applicationId", source = "application.id")
+    @Mapping(target = "candidateId", source = "application.candidate.id")
+    @Mapping(target = "candidateName", source = "application.candidate.fullName")
+    @Mapping(target = "jobTitle", source = "application.job.title")
+    @Mapping(target = "evaluations", ignore = true) // set trong service
+    InterviewEvaluationDetailResponse toDetailResponse(Interview interview);
 }

@@ -41,4 +41,6 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 // tính điểm trung bình theo interviewId
     @Query("SELECT AVG(e.score) FROM Evaluation e WHERE e.interview.id = :interviewId")
     Double getAverageScoreByInterviewId(@Param("interviewId") Long interviewId);
+
+    List<Evaluation> findByInterviewId(Long interviewId);
 }
