@@ -50,4 +50,22 @@ public class CandidateJobController {
                 .result(jobs)
                 .build();
     }
+
+
+    @GetMapping("/search")
+    public ApiResponse<PageResponse<JobPositionResponse>> searchJobs(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PageResponse<JobPositionResponse> result = jobPositionService.searchJobsForCandidate(keyword, page, size);
+
+        return ApiResponse.<PageResponse<JobPositionResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(String.format("Found %d job positions", result.getItems().size()))
+                .result(result)
+                .build();
+    }
+
+
 }
