@@ -221,65 +221,65 @@ CURDATE(),
 INSERT INTO applications
 (applied_date, current_stage, resume_path, candidate_id, job_id)
 VALUES
-(NOW(), 'SCREENING', '/resumes/candidate1.pdf', 4, 1),
-(NOW(), 'INTERVIEWING', '/resumes/candidate2.pdf', 5, 2);
+(NOW(), 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 1),
+(NOW(), 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 5, 2);
 INSERT INTO applications
 (applied_date, current_stage, resume_path, candidate_id, job_id)
 VALUES
 -- Candidate 4 apply Backend Developer
-('2026-01-26 09:15:00', 'APPLIED', '/resumes/nguyen_van_a_backend.pdf', 4, 2),
+('2026-01-26 09:15:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 2),
 
 -- Candidate 5 apply Backend Developer (đã qua screening)
-('2026-01-26 10:30:00', 'SCREENING', '/resumes/tran_thi_b_backend.pdf', 5, 1),
+('2026-01-26 10:30:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 5, 1),
 
 -- Candidate 6 apply Frontend Developer (đang phỏng vấn)
-('2026-01-26 14:00:00', 'INTERVIEWING', '/resumes/le_van_c_frontend.pdf', 4, 4),
+('2026-01-26 14:00:00', 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 4),
 
 -- Candidate 4 apply Fullstack Developer (đã offer)
-('2026-01-26 16:45:00', 'OFFERED', '/resumes/nguyen_van_a_fullstack.pdf', 4, 3),
+('2026-01-26 16:45:00', 'OFFERED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 3),
 
 -- Candidate 5 apply Fullstack Developer (đã reject)
-('2026-01-26 11:20:00', 'REJECTED', '/resumes/tran_thi_b_fullstack.pdf', 5, 3),
+('2026-01-26 11:20:00', 'REJECTED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 5, 3),
 
 -- Candidate 6 apply AI Engineer (đã hired)
-('2026-01-26 09:00:00', 'HIRED', '/resumes/le_van_c_ai.pdf', 4, 6);
+('2026-01-26 09:00:00', 'HIRED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 6);
 
 INSERT INTO applications
 (applied_date, current_stage, resume_path, candidate_id, job_id)
 VALUES
 -- Hoang Van C (user_id = 10)
-('2026-01-26 08:30:00', 'APPLIED', '/resumes/hoang_van_c_senior_backend.pdf', 10, 1),
-('2026-01-26 09:00:00', 'SCREENING', '/resumes/hoang_van_c_frontend.pdf', 10, 2),
+('2026-01-26 08:30:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 10, 1),
+('2026-01-26 09:00:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 10, 2),
 
 -- Ngo Thi D (user_id = 11)
-('2026-01-26 10:15:00', 'INTERVIEWING', '/resumes/ngo_thi_d_data_science.pdf', 11, 3),
-('2026-01-26 14:20:00', 'APPLIED', '/resumes/ngo_thi_d_devops.pdf', 11, 4),
+('2026-01-26 10:15:00', 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 11, 3),
+('2026-01-26 14:20:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 11, 4),
 
 -- Dang Van E (user_id = 12)
-('2026-01-26 11:45:00', 'SCREENING', '/resumes/dang_van_e_fullstack.pdf', 12, 5),
-('2026-01-26 09:30:00', 'REJECTED', '/resumes/dang_van_e_php_backend.pdf', 12, 6),
+('2026-01-26 11:45:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 12, 5),
+('2026-01-26 09:30:00', 'REJECTED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 12, 6),
 
 -- Bui Thi F (user_id = 13)
-('2026-01-26 13:00:00', 'INTERVIEWING', '/resumes/bui_thi_f_ai_engineer.pdf', 13, 7),
+('2026-01-26 13:00:00', 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 13, 7),
 
 -- Vu Van G (user_id = 14)
-('2026-01-26 15:10:00', 'APPLIED', '/resumes/vu_van_g_qa.pdf', 14, 8),
-('2026-01-26 10:40:00', 'SCREENING', '/resumes/vu_van_g_flutter.pdf', 14, 9),
+('2026-01-26 15:10:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 14, 8),
+('2026-01-26 10:40:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 14, 9),
 
 -- Ly Thi H (user_id = 15)
-('2026-01-26 16:00:00', 'SCREENING', '/resumes/ly_thi_h_pm.pdf', 15, 11),
+('2026-01-26 16:00:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 15, 11),
 
 -- Truong Van I (user_id = 16)
-('2026-01-26 09:50:00', 'APPLIED', '/resumes/truong_van_i_frontend.pdf', 16, 2),
+('2026-01-26 09:50:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 16, 2),
 
 -- Dinh Thi K (user_id = 17)
-('2026-01-26 11:30:00', 'HIRED', '/resumes/dinh_thi_k_data_scientist.pdf', 17, 3),
+('2026-01-26 11:30:00', 'HIRED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 17, 3),
 
 -- Mai Van L (user_id = 18)
-('2026-01-26 14:00:00', 'OFFERED', '/resumes/mai_van_l_devops.pdf', 18, 4),
+('2026-01-26 14:00:00', 'OFFERED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 18, 4),
 
 -- Phan Thi M (user_id = 19)
-('2026-01-26 09:10:00', 'REJECTED', '/resumes/phan_thi_m_fullstack.pdf', 19, 5);
+('2026-01-26 09:10:00', 'REJECTED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 19, 5);
 
 
 
