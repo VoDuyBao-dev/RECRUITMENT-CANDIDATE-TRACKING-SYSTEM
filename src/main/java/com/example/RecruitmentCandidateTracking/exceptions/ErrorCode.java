@@ -137,6 +137,8 @@ public enum ErrorCode {
         APPLICATION_HAS_NO_OFFER(5509, "application has offer", HttpStatus.BAD_REQUEST),
         OFFER_ALREADY_RESPONDED(5510, "This offer has already been responded to", HttpStatus.BAD_REQUEST),
 
+
+
         ;
 
         private int code;

@@ -48,6 +48,11 @@ public class SecurityConfig {
                         "SCOPE_INTERVIEWER",
                         "SCOPE_HR"
                 )
+                .requestMatchers("/interviews/**").hasAnyAuthority(
+                        "SCOPE_CANDIDATE",
+                        "SCOPE_INTERVIEWER",
+                        "SCOPE_HR"
+                )
                 .requestMatchers("/candidate/**").hasAuthority("SCOPE_CANDIDATE")
                 .requestMatchers("/hr/**").hasAuthority("SCOPE_HR")
                     // tất cả request khác phải đăng nhập
