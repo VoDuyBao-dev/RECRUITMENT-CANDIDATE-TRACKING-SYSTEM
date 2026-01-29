@@ -7,6 +7,7 @@ import com.example.RecruitmentCandidateTracking.enums.PipelineStage;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,4 +41,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     long countByJobId(Long jobId);
 
     long countByCurrentStage(PipelineStage stage);
+
+    @EntityGraph(attributePaths = {
+            "job"
+    })
+    List<Application> findByCandidateIdOrderByAppliedDateDesc(Long candidateId);
 }
