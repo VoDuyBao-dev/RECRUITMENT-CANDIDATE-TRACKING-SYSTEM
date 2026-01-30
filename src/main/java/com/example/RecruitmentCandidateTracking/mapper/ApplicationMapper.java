@@ -11,10 +11,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApplicationMapper {
 
-    @Mapping(source = "candidate.id", target = "candidateId")
-    @Mapping(source = "job.id", target = "jobId")
-    @Mapping(source = "job.title", target = "jobTitle")
-    ApplicationResponse applicationToApplicationResponse(Application application);
+    // @Mapping(source = "candidate.id", target = "candidateId")
+    // @Mapping(source = "job.id", target = "jobId")
+    // @Mapping(source = "job.title", target = "jobTitle")
+    // ApplicationResponse applicationToApplicationResponse(Application application);
 
     @Mapping(target = "candidateId", source = "candidate.id")
     @Mapping(target = "candidateName", source = "candidate.fullName")
