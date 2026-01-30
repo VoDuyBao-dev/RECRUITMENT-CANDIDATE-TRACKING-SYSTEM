@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-
+// DTO để tạo hoặc cập nhật lịch phỏng vấn
 @Data
 @Builder
 @NoArgsConstructor

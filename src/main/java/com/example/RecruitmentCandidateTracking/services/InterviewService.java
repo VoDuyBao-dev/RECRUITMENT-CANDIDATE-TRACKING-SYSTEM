@@ -6,6 +6,7 @@ import com.example.RecruitmentCandidateTracking.dto.requests.InterviewRequest;
 import com.example.RecruitmentCandidateTracking.dto.responses.ApplicationResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.EvaluationResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.InterviewResponse;
+import com.example.RecruitmentCandidateTracking.dto.responses.InterviewersResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.JobPositionResponse;
 import com.example.RecruitmentCandidateTracking.entities.*;
 import com.example.RecruitmentCandidateTracking.enums.ERole;
@@ -61,9 +62,16 @@ public class InterviewService {
                 .orElseThrow(() -> new AppException(ErrorCode.APPLICATION_NOT_FOUND));
 
         // Validate application is in appropriate stage
-        if (application.getCurrentStage() != PipelineStage.SCREENING) {
+        if (application.getCurrentStage() != PipelineStage.SCREENING && application.getCurrentStage() != PipelineStage.INTERVIEWING) {
             throw new AppException(ErrorCode.CANNOT_SCHEDULE_INTERVIEW);
         }
+// kiểm tra roundNumber có hợp lệ hay trùng không 
+        List<Interview> existingInterviews = interviewRepository.findByApplicationIdAndRoundNumber(
+                request.getApplicationId(),
+                request.getRoundNumber());
+        if (!existingInterviews.isEmpty()) {
+            throw new AppException(ErrorCode.INTERVIEW_ROUND_NUMBER_EXISTS);
+        }   
 
         // Find interviewers
         // Find interviewers
@@ -243,11 +251,9 @@ public class InterviewService {
         return evaluationMapper.toResponse(savedEvaluation);
     }
 
-
     @Transactional(readOnly = true)
     public List<InterviewResponse> getMySchedule() {
         User currentUser = authenticationService.getCurrentUser();
-
 
         List<Interview> interviews = interviewRepository.findUpcomingInterviewsByInterviewer(
                 currentUser.getId(),
@@ -306,6 +312,55 @@ public class InterviewService {
                 evaluations.getSize(),
                 evaluations.getTotalElements(),
                 evaluations.getTotalPages());
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<EvaluationResponse> getCompletedEvaluationsByInterview(
+            Long interviewId, int page, int size) {
+
+        Interview interview = interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new AppException(ErrorCode.INTERVIEW_NOT_FOUND));
+
+        int totalInterviewers = interview.getInterviewers().size();
+
+        long totalEvaluations = evaluationRepository.countEvaluationsByInterviewId(interviewId);
+
+        // Nếu chưa đủ interviewer đánh giá → trả rỗng
+        if (totalEvaluations < totalInterviewers) {
+            return PageResponse.of(
+                    List.of(),
+                    page,
+                    size,
+                    0,
+                    0);
+        }
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<Evaluation> evaluations = evaluationRepository.findByInterviewId(interviewId, pageable);
+
+        List<EvaluationResponse> responseList = evaluations.getContent().stream()
+                .map(evaluationMapper::toResponse)
+                .toList();
+
+        return PageResponse.of(
+                responseList,
+                evaluations.getNumber(),
+                evaluations.getSize(),
+                evaluations.getTotalElements(),
+                evaluations.getTotalPages());
+    }
+
+    @Transactional(readOnly = true)
+    public List<InterviewersResponse> getAllInterviewers() {
+
+        return userRepository.findAllInterviewers(ERole.INTERVIEWER.name())
+                .stream()
+                .map(interviewMapper::toInterviewersResponse)
+                .toList();
     }
 
 }

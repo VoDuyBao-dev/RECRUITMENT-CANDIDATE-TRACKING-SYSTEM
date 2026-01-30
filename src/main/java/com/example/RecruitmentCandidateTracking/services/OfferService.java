@@ -38,13 +38,11 @@ public class OfferService {
             throw new AppException(ErrorCode.OFFER_ALREADY_EXISTS);
         }
 
-        if(!application.getCurrentStage().name().equals("INTERVIEWING")) {
+        if (!application.getCurrentStage().name().equals("INTERVIEWING")) {
             throw new AppException(ErrorCode.INVALID_APPLICATION_STAGE);
         }
 
-
-
-        //Người duyệt
+        // Người duyệt
         User approvedBy = userService.getCurrentUser();
 
         Offer offer = Offer.builder()
@@ -69,47 +67,45 @@ public class OfferService {
                 offer.getProbationSalary() != null
                         ? offer.getProbationSalary().toString()
                         : "Theo thỏa thuận",
-                approvedBy.getFullName()
-        );
+                approvedBy.getFullName());
 
-//        Chuyển trạng thái đơn ứng tuyển sang OFFERED
+        // Chuyển trạng thái đơn ứng tuyển sang OFFERED
         application.setCurrentStage(PipelineStage.OFFERED);
         applicationRepository.save(application);
 
         return offerMapper.toOfferResponse(savedOffer);
     }
 
-//    candidate đồng ý/ từ chối offer
-public void respondToOffer(RespondOfferRequest request) {
+    // candidate đồng ý/ từ chối offer
+    public void respondToOffer(RespondOfferRequest request) {
 
-    Application application = applicationRepository.findById(request.getApplicationId())
-            .orElseThrow(() -> new AppException(ErrorCode.APPLICATION_NOT_EXISTED));
+        Application application = applicationRepository.findById(request.getApplicationId())
+                .orElseThrow(() -> new AppException(ErrorCode.APPLICATION_NOT_EXISTED));
 
-//    check application đã có offer chưa
-    boolean checkOffer = offerRepository.existsByApplication(application);
+        // check application đã có offer chưa
+        boolean checkOffer = offerRepository.existsByApplication(application);
 
-    if (!checkOffer) {
-        throw new AppException(ErrorCode.APPLICATION_HAS_NO_OFFER);
+        if (!checkOffer) {
+            throw new AppException(ErrorCode.APPLICATION_HAS_NO_OFFER);
+        }
+
+        if (application.getCurrentStage().name().equals("HIRED")) {
+            throw new AppException(ErrorCode.OFFER_ALREADY_RESPONDED);
+        }
+
+        User currentUser = userService.getCurrentUser();
+
+        // Kiểm tra đúng candidate sở hữu application
+        if (!application.getCandidate().getId().equals(currentUser.getId())) {
+            throw new AppException(ErrorCode.CANDIDATE_NOT_OWNER_OF_APPLICATION);
+        }
+
+        if (Boolean.TRUE.equals(request.getAccepted())) {
+            application.setCurrentStage(PipelineStage.HIRED);
+        } else {
+            application.setCurrentStage(PipelineStage.REJECTED);
+        }
+
+        applicationRepository.save(application);
     }
-
-    if(application.getCurrentStage().name().equals("HIRED")) {
-        throw new AppException(ErrorCode.OFFER_ALREADY_RESPONDED);
-    }
-
-    User currentUser = userService.getCurrentUser();
-
-    // Kiểm tra đúng candidate sở hữu application
-    if (!application.getCandidate().getId().equals(currentUser.getId())) {
-        throw new AppException(ErrorCode.CANDIDATE_NOT_OWNER_OF_APPLICATION);
-    }
-
-    if (Boolean.TRUE.equals(request.getAccepted())) {
-        application.setCurrentStage(PipelineStage.HIRED);
-    }
-    else {
-        application.setCurrentStage(PipelineStage.REJECTED);
-    }
-
-    applicationRepository.save(application);
-}
 }

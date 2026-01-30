@@ -124,6 +124,7 @@ public enum ErrorCode {
         EVALUATION_ALREADY_SUBMITTED(5007, "You have already submitted evaluation for this interview",
                         HttpStatus.CONFLICT),
 
+                        INTERVIEW_ROUND_NUMBER_EXISTS(5008, "Interview round number already exists for this application", HttpStatus.BAD_REQUEST),
 //        OFFER
         APPLICATIONID_REQUIRED(5500, "applicationID required", HttpStatus.BAD_REQUEST),
         START_WORK_DATE_REQUIRED(5501, "start work date required", HttpStatus.BAD_REQUEST),
