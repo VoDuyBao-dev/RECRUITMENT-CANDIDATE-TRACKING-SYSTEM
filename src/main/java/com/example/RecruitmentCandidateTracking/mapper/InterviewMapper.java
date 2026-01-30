@@ -3,6 +3,7 @@ package com.example.RecruitmentCandidateTracking.mapper;
 import com.example.RecruitmentCandidateTracking.dto.responses.InterviewEvaluationDetailResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.InterviewResponse;
 import com.example.RecruitmentCandidateTracking.dto.responses.InterviewersResponse;
+import com.example.RecruitmentCandidateTracking.dto.responses.InterviewScheduleResponse;
 import com.example.RecruitmentCandidateTracking.entities.Interview;
 import com.example.RecruitmentCandidateTracking.entities.User;
 import org.mapstruct.*;
@@ -50,4 +51,8 @@ public interface InterviewMapper {
 
     
     InterviewersResponse toInterviewersResponse(User user);
+    
+    @Mapping(target = "interviewId", source = "id")
+    @Mapping(target = "applicationId", source = "application.id")
+    InterviewScheduleResponse toScheduleResponse(Interview interview);
 }

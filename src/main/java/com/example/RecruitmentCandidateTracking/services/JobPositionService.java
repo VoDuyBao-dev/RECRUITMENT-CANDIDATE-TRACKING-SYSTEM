@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -165,6 +166,90 @@ public class JobPositionService {
 
         return jobMapper.toResponse(jobPosition);
     }
+
+    @Transactional(readOnly = true)
+    public PageResponse<JobPositionResponse> searchJobsForCandidate(
+            String keyword,
+            int page,
+            int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<JobPosition> jobs = jobPositionRepository.searchOpenJobsByKeyword(
+                JobStatus.OPEN,
+                (keyword == null || keyword.isBlank()) ? null : keyword.trim(),
+                pageable
+        );
+
+        List<JobPositionResponse> responseList = jobs.getContent().stream()
+                .map(jobMapper::toResponse)
+                .toList();
+
+        return PageResponse.of(
+                responseList,
+                jobs.getNumber(),
+                jobs.getSize(),
+                jobs.getTotalElements(),
+                jobs.getTotalPages());
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<JobPositionResponse> getRelatedJobs(
+            Long jobId, int page, int size) {
+
+        JobPosition current = jobPositionRepository.findById(jobId)
+                .orElseThrow(() -> new AppException(ErrorCode.JOB_NOT_FOUND));
+
+        Pageable pageable = PageRequest.of(
+                0, size, Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        // Tìm job liên quan
+        Page<JobPosition> relatedPage =
+                jobPositionRepository.findRelatedJobs(
+                        JobStatus.OPEN,
+                        jobId,
+                        current.getAddress(),
+                        current.getBranchName(),
+                        current.getTitle(),
+                        pageable
+                );
+
+        List<JobPosition> result = new ArrayList<>(relatedPage.getContent());
+
+        // Nếu chưa đủ -> lấy thêm các job mới nhất
+        if (result.size() < size) {
+
+            List<Long> excludedIds = result.stream()
+                    .map(JobPosition::getId)
+                    .toList();
+
+            int remain = size - result.size();
+
+            Pageable fallbackPageable = PageRequest.of(
+                    0, remain, Sort.by(Sort.Direction.DESC, "createdAt")
+            );
+
+            Page<JobPosition> fallbackJobs =
+                    jobPositionRepository.findFallbackJobs(
+                            JobStatus.OPEN,
+                            jobId,
+                            excludedIds.isEmpty() ? List.of(-1L) : excludedIds,
+                            fallbackPageable
+                    );
+
+            result.addAll(fallbackJobs.getContent());
+        }
+
+        // Map sang response
+        List<JobPositionResponse> responseList = result.stream()
+                .map(jobMapper::toResponse)
+                .toList();
+
+        return PageResponse.of(responseList, 0, size, responseList.size(), 1);
+    }
+
+
 
     // @Transactional
     // public void deleteJob(Long id) {

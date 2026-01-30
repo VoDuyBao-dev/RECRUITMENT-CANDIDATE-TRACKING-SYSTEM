@@ -50,4 +50,38 @@ public class CandidateJobController {
                 .result(jobs)
                 .build();
     }
+
+
+    @GetMapping("/search")
+    public ApiResponse<PageResponse<JobPositionResponse>> searchJobs(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PageResponse<JobPositionResponse> result = jobPositionService.searchJobsForCandidate(keyword, page, size);
+
+        return ApiResponse.<PageResponse<JobPositionResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(String.format("Found %d job positions", result.getItems().size()))
+                .result(result)
+                .build();
+    }
+
+
+    // Lấy danh sách công việc gợi ý liên quan tới job hiện tại
+    @GetMapping("/{id}/related")
+    public ApiResponse<PageResponse<JobPositionResponse>> getRelatedJobs(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        PageResponse<JobPositionResponse> related = jobPositionService.getRelatedJobs(id, page, size);
+
+        return ApiResponse.<PageResponse<JobPositionResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(String.format("Found %d related job positions", related.getItems().size()))
+                .result(related)
+                .build();
+    }
+
 }
