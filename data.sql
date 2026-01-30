@@ -83,7 +83,7 @@ VALUES
 65000000.00, -- ~2500$
 'TẠI SAO BẠN SẼ YÊU THÍCH CÔNG VIỆC NÀY:\n- Lương Net cạnh tranh lên tới $3000 + Thưởng dự án (Project Bonus).\n- Thưởng tháng 13 cam kết + Thưởng hiệu suất (1-3 tháng lương).\n- Cấp MacBook Pro M2 Max và màn hình Dell 4K.\n- Bảo hiểm sức khỏe PVI Premium cho nhân viên và người thân.\n- Review lương định kỳ 2 lần/năm (Tháng 6 & Tháng 12).\n- Du lịch công ty (Company Trip) hàng năm tiêu chuẩn 5 sao.', 
 '2026-05-30', 
-'MÔ TẢ CÔNG VIỆC:\n- Tham gia vào toàn bộ vòng đời phát triển phần mềm (SDLC) của các hệ thống tài chính ngân hàng (Fintech) quy mô lớn.\n- Thiết kế và phát triển các Microservices sử dụng Java Core, Spring Boot.\n- Tối ưu hóa hiệu năng hệ thống (High Performance), xử lý hàng triệu transaction mỗi ngày.\n- Thiết kế kiến trúc Database (MySQL, PostgreSQL) và tối ưu câu lệnh truy vấn (Query Optimization).\n- Review code, hướng dẫn (mentor) các thành viên Junior/Middle trong team.\n- Phối hợp với team DevOps để triển khai hệ thống lên AWS/Kubernetes.', 
+'- Tham gia vào toàn bộ vòng đời phát triển phần mềm (SDLC) của các hệ thống tài chính ngân hàng (Fintech) quy mô lớn.\n- Thiết kế và phát triển các Microservices sử dụng Java Core, Spring Boot.\n- Tối ưu hóa hiệu năng hệ thống (High Performance), xử lý hàng triệu transaction mỗi ngày.\n- Thiết kế kiến trúc Database (MySQL, PostgreSQL) và tối ưu câu lệnh truy vấn (Query Optimization).\n- Review code, hướng dẫn (mentor) các thành viên Junior/Middle trong team.\n- Phối hợp với team DevOps để triển khai hệ thống lên AWS/Kubernetes.', 
 3, 
 'YÊU CẦU BẮT BUỘC:\n- Tối thiểu 4 năm kinh nghiệm làm việc chuyên sâu với Java.\n- Thành thạo Spring Ecosystem (Spring Boot, Spring Security, Spring Cloud).\n- Có kinh nghiệm thực tế về Microservices Architecture và RESTful APIs.\n- Hiểu sâu về Database (SQL & NoSQL như Redis, MongoDB, Cassandra).\n- Có kinh nghiệm làm việc với Message Queue (Kafka, RabbitMQ).\n\nĐIỂM CỘNG (NICE TO HAVE):\n- Có kinh nghiệm làm việc với các hệ thống thanh toán (Payment Gateway).\n- Hiểu biết về CI/CD pipelines (Jenkins, GitLab CI).\n- Tiếng Anh giao tiếp tốt.', 
 '2026-03-01', 
@@ -111,7 +111,7 @@ CURDATE(),
 70000000.00, 
 'PHÚC LỢI:\n- Chế độ làm việc Hybrid (Lên văn phòng 2 ngày/tuần).\n- Tài trợ 100% chi phí thi chứng chỉ AWS/Azure Professional.\n- Bảo hiểm sức khỏe FPT Care.\n- Thưởng signing bonus 1 tháng lương nếu nhận việc ngay.', 
 '2026-06-01', 
-'MÔ TẢ CÔNG VIỆC:\n- Xây dựng, quản trị và tối ưu hóa hạ tầng trên nền tảng Cloud (AWS là chủ yếu).\n- Thiết kế và vận hành hệ thống CI/CD Pipelines (Jenkins, GitLab CI/CD) để tự động hóa quy trình deploy.\n- Quản lý Container Orchestration sử dụng Kubernetes (EKS) và Docker.\n- Xây dựng hệ thống giám sát (Monitoring) và cảnh báo (Alerting) dùng Prometheus, Grafana, ELK Stack.\n- Đảm bảo tính bảo mật (Security) và khả năng mở rộng (Scalability) của hệ thống.', 
+'- Xây dựng, quản trị và tối ưu hóa hạ tầng trên nền tảng Cloud (AWS là chủ yếu).\n- Thiết kế và vận hành hệ thống CI/CD Pipelines (Jenkins, GitLab CI/CD) để tự động hóa quy trình deploy.\n- Quản lý Container Orchestration sử dụng Kubernetes (EKS) và Docker.\n- Xây dựng hệ thống giám sát (Monitoring) và cảnh báo (Alerting) dùng Prometheus, Grafana, ELK Stack.\n- Đảm bảo tính bảo mật (Security) và khả năng mở rộng (Scalability) của hệ thống.', 
 2, 
 'YÊU CẦU:\n- 3+ năm kinh nghiệm ở vị trí DevOps hoặc System Administrator.\n- Kinh nghiệm thực tế (Hands-on) sâu rộng với AWS (EC2, S3, RDS, VPC, IAM...).\n- Thành thạo kỹ năng Scripting (Bash, Python).\n- Kinh nghiệm vận hành Kubernetes và Helm Charts.\n- Hiểu biết về Infrastructure as Code (Terraform, Ansible).', 
 '2026-03-15', 
@@ -125,7 +125,7 @@ CURDATE(),
 32000000.00, 
 'CHẾ ĐỘ ĐÃI NGỘ:\n- Cơ hội Onsite ngắn hạn tại Singapore hoặc Nhật Bản.\n- Lớp học tiếng Anh/tiếng Nhật miễn phí tại công ty.\n- CLB Thể thao (Bóng đá, Cầu lông, Yoga) được tài trợ chi phí.\n- Kiểm tra sức khỏe tổng quát định kỳ tại bệnh viện quốc tế.', 
 '2026-03-10', 
-'MÔ TẢ CÔNG VIỆC:\n- Làm việc trực tiếp với khách hàng nước ngoài để khơi gợi (Elicit) và phân tích yêu cầu nghiệp vụ.\n- Phân tích và xây dựng tài liệu đặc tả yêu cầu (SRS, URD, User Stories).\n- Vẽ các biểu đồ quy trình nghiệp vụ (BPMN, UML, Flowchart).\n- Thiết kế Wireframe/Mockup giao diện sơ bộ để thống nhất với khách hàng.\n- Hỗ trợ team Dev và QC trong việc làm rõ yêu cầu nghiệp vụ (Q&A).\n- Tổ chức buổi UAT (User Acceptance Testing) với khách hàng.', 
+'- Làm việc trực tiếp với khách hàng nước ngoài để khơi gợi (Elicit) và phân tích yêu cầu nghiệp vụ.\n- Phân tích và xây dựng tài liệu đặc tả yêu cầu (SRS, URD, User Stories).\n- Vẽ các biểu đồ quy trình nghiệp vụ (BPMN, UML, Flowchart).\n- Thiết kế Wireframe/Mockup giao diện sơ bộ để thống nhất với khách hàng.\n- Hỗ trợ team Dev và QC trong việc làm rõ yêu cầu nghiệp vụ (Q&A).\n- Tổ chức buổi UAT (User Acceptance Testing) với khách hàng.', 
 4, 
 'YÊU CẦU CÔNG VIỆC:\n- Tốt nghiệp Đại học chuyên ngành CNTT hoặc Hệ thống thông tin.\n- Tối thiểu 2 năm kinh nghiệm làm BA cho dự án phần mềm.\n- Tiếng Anh giao tiếp tốt (tương đương IELTS 6.5 trở lên), có khả năng đọc viết tài liệu chuyên ngành.\n- Tư duy logic, phân tích và giải quyết vấn đề tốt.\n- Kỹ năng giao tiếp và thuyết trình tự tin.', 
 '2026-02-15', 
@@ -153,7 +153,7 @@ CURDATE(),
 28000000.00, 
 'PHÚC LỢI:\n- Đào tạo chuyển đổi từ Manual sang Automation chuyên sâu.\n- Nghỉ thứ 7, Chủ Nhật.\n- Trợ cấp laptop và thiết bị test (iPhone, Android phones).\n- Tiệc sinh nhật hàng tháng.', 
 '2026-02-28', 
-'MÔ TẢ CÔNG VIỆC:\n- Phân tích yêu cầu và xây dựng kế hoạch kiểm thử (Test Plan).\n- Viết kịch bản kiểm thử tự động (Test Scripts) cho Web và API.\n- Vận hành và bảo trì hệ thống Automation Test Framework.\n- Thực hiện kiểm thử hiệu năng (Performance Test) và bảo mật (Security Test) cơ bản.\n- Báo cáo lỗi (Bug Report) chi tiết và theo dõi tiến độ fix bug.', 
+'- Phân tích yêu cầu và xây dựng kế hoạch kiểm thử (Test Plan).\n- Viết kịch bản kiểm thử tự động (Test Scripts) cho Web và API.\n- Vận hành và bảo trì hệ thống Automation Test Framework.\n- Thực hiện kiểm thử hiệu năng (Performance Test) và bảo mật (Security Test) cơ bản.\n- Báo cáo lỗi (Bug Report) chi tiết và theo dõi tiến độ fix bug.', 
 2, 
 'YÊU CẦU:\n- Tốt nghiệp chuyên ngành CNTT.\n- Có ít nhất 1 năm kinh nghiệm làm Automation Testing.\n- Thành thạo Selenium WebDriver hoặc Cypress/Playwright.\n- Có kiến thức lập trình cơ bản (Java/Python/JS) để viết script.\n- Tư duy cẩn thận, tỉ mỉ, "soi" lỗi tốt.', 
 '2026-02-15', 
@@ -221,65 +221,65 @@ CURDATE(),
 INSERT INTO applications
 (applied_date, current_stage, resume_path, candidate_id, job_id)
 VALUES
-(NOW(), 'SCREENING', '/resumes/candidate1.pdf', 4, 1),
-(NOW(), 'INTERVIEWING', '/resumes/candidate2.pdf', 5, 2);
+(NOW(), 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 1),
+(NOW(), 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 5, 2);
 INSERT INTO applications
 (applied_date, current_stage, resume_path, candidate_id, job_id)
 VALUES
 -- Candidate 4 apply Backend Developer
-('2026-01-26 09:15:00', 'APPLIED', '/resumes/nguyen_van_a_backend.pdf', 4, 2),
+('2026-01-26 09:15:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 2),
 
 -- Candidate 5 apply Backend Developer (đã qua screening)
-('2026-01-26 10:30:00', 'SCREENING', '/resumes/tran_thi_b_backend.pdf', 5, 1),
+('2026-01-26 10:30:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 5, 1),
 
 -- Candidate 6 apply Frontend Developer (đang phỏng vấn)
-('2026-01-26 14:00:00', 'INTERVIEWING', '/resumes/le_van_c_frontend.pdf', 4, 4),
+('2026-01-26 14:00:00', 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 4),
 
 -- Candidate 4 apply Fullstack Developer (đã offer)
-('2026-01-26 16:45:00', 'OFFERED', '/resumes/nguyen_van_a_fullstack.pdf', 4, 3),
+('2026-01-26 16:45:00', 'OFFERED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 3),
 
 -- Candidate 5 apply Fullstack Developer (đã reject)
-('2026-01-26 11:20:00', 'REJECTED', '/resumes/tran_thi_b_fullstack.pdf', 5, 3),
+('2026-01-26 11:20:00', 'REJECTED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 5, 3),
 
 -- Candidate 6 apply AI Engineer (đã hired)
-('2026-01-26 09:00:00', 'HIRED', '/resumes/le_van_c_ai.pdf', 4, 6);
+('2026-01-26 09:00:00', 'HIRED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 4, 6);
 
 INSERT INTO applications
 (applied_date, current_stage, resume_path, candidate_id, job_id)
 VALUES
 -- Hoang Van C (user_id = 10)
-('2026-01-26 08:30:00', 'APPLIED', '/resumes/hoang_van_c_senior_backend.pdf', 10, 1),
-('2026-01-26 09:00:00', 'SCREENING', '/resumes/hoang_van_c_frontend.pdf', 10, 2),
+('2026-01-26 08:30:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 10, 1),
+('2026-01-26 09:00:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 10, 2),
 
 -- Ngo Thi D (user_id = 11)
-('2026-01-26 10:15:00', 'INTERVIEWING', '/resumes/ngo_thi_d_data_science.pdf', 11, 3),
-('2026-01-26 14:20:00', 'APPLIED', '/resumes/ngo_thi_d_devops.pdf', 11, 4),
+('2026-01-26 10:15:00', 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 11, 3),
+('2026-01-26 14:20:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 11, 4),
 
 -- Dang Van E (user_id = 12)
-('2026-01-26 11:45:00', 'SCREENING', '/resumes/dang_van_e_fullstack.pdf', 12, 5),
-('2026-01-26 09:30:00', 'REJECTED', '/resumes/dang_van_e_php_backend.pdf', 12, 6),
+('2026-01-26 11:45:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 12, 5),
+('2026-01-26 09:30:00', 'REJECTED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 12, 6),
 
 -- Bui Thi F (user_id = 13)
-('2026-01-26 13:00:00', 'INTERVIEWING', '/resumes/bui_thi_f_ai_engineer.pdf', 13, 7),
+('2026-01-26 13:00:00', 'INTERVIEWING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 13, 7),
 
 -- Vu Van G (user_id = 14)
-('2026-01-26 15:10:00', 'APPLIED', '/resumes/vu_van_g_qa.pdf', 14, 8),
-('2026-01-26 10:40:00', 'SCREENING', '/resumes/vu_van_g_flutter.pdf', 14, 9),
+('2026-01-26 15:10:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 14, 8),
+('2026-01-26 10:40:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 14, 9),
 
 -- Ly Thi H (user_id = 15)
-('2026-01-26 16:00:00', 'SCREENING', '/resumes/ly_thi_h_pm.pdf', 15, 11),
+('2026-01-26 16:00:00', 'SCREENING', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 15, 11),
 
 -- Truong Van I (user_id = 16)
-('2026-01-26 09:50:00', 'APPLIED', '/resumes/truong_van_i_frontend.pdf', 16, 2),
+('2026-01-26 09:50:00', 'APPLIED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 16, 2),
 
 -- Dinh Thi K (user_id = 17)
-('2026-01-26 11:30:00', 'HIRED', '/resumes/dinh_thi_k_data_scientist.pdf', 17, 3),
+('2026-01-26 11:30:00', 'HIRED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 17, 3),
 
 -- Mai Van L (user_id = 18)
-('2026-01-26 14:00:00', 'OFFERED', '/resumes/mai_van_l_devops.pdf', 18, 4),
+('2026-01-26 14:00:00', 'OFFERED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 18, 4),
 
 -- Phan Thi M (user_id = 19)
-('2026-01-26 09:10:00', 'REJECTED', '/resumes/phan_thi_m_fullstack.pdf', 19, 5);
+('2026-01-26 09:10:00', 'REJECTED', '1kKu5npO6Cot93tk5cLh_cyzjzT_EFemN', 19, 5);
 
 
 

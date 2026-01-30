@@ -77,7 +77,7 @@ public class ApplicationService {
         Application saved = applicationRepository.save(application);
         log.info("Application submitted: User {} -> Job {}", userEmail, job.getTitle());
 
-        return applicationMapper.applicationToApplicationResponse(saved);
+        return applicationMapper.toApplicationResponse(saved);
     }
 
     public List<ApplicationResponse> getCandidateApplications(String userEmail) {
@@ -86,7 +86,7 @@ public class ApplicationService {
 
         return applicationRepository.findByCandidate(candidate)
             .stream()
-            .map(applicationMapper::applicationToApplicationResponse)
+            .map(applicationMapper::toApplicationResponse)
             .toList();
     }
 
